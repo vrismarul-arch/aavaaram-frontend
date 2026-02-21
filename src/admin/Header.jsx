@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import API from "../../services/api";
@@ -7,6 +7,8 @@ import "./Header.css";
 export default function Header() {
 
   const navigate = useNavigate();
+  const dropdownRef = useRef();
+
   const [showMenu, setShowMenu] = useState(false);
   const [admin, setAdmin] = useState(null);
 
@@ -15,7 +17,7 @@ export default function Header() {
     password: "",
   });
 
-  /* ✅ Check if already logged in */
+  /* ✅ Check login */
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     const adminName = localStorage.getItem("adminName");
@@ -23,6 +25,23 @@ export default function Header() {
     if (token) {
       setAdmin(adminName || "Admin");
     }
+  }, []);
+
+  /* ✅ Close dropdown when click outside */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   /* ✅ Login */
@@ -35,7 +54,7 @@ export default function Header() {
 
       setAdmin(res.data.name);
       setShowMenu(false);
-      navigate("/admin");
+      navigate("/admin/dashboard");
 
     } catch (err) {
       alert("Invalid Admin Login");
@@ -47,39 +66,48 @@ export default function Header() {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("adminName");
     setAdmin(null);
+    setShowMenu(false);
     navigate("/");
   };
 
   return (
-    <div className="profile-wrapper">
+    <div className="profile-wrapper" ref={dropdownRef}>
 
       <FiUser
-        size={20}
+        size={22}
         className="profile-icon"
         onClick={() => setShowMenu(!showMenu)}
       />
 
       {showMenu && (
-        <div className="login-popup">
+        <div className="profile-dropdown">
 
-          {/* 🔥 IF LOGGED IN */}
           {admin ? (
             <>
-              <h4>Welcome, {admin}</h4>
-
-              <button
-                className="admin-btn"
-                onClick={() => navigate("/admin")}
+              <p
+                onClick={() => {
+                  navigate("/admin/profile");
+                  setShowMenu(false);
+                }}
               >
-                Go to Dashboard
-              </button>
+                Profile
+              </p>
 
-              <button
-                className="logout-btn"
+              <p
+                onClick={() => {
+                  navigate("/admin/bookings");
+                  setShowMenu(false);
+                }}
+              >
+                My Bookings
+              </p>
+
+              <p
+                className="logout"
                 onClick={handleLogout}
               >
                 Logout
-              </button>
+              </p>
             </>
           ) : (
             <>

@@ -1,149 +1,137 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FaStar, FaHeart } from "react-icons/fa";
 import API from "../../services/api";
+import ProductCard from "../../components/ProductCard";
 import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
 import "./ProductDetails.css";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [product, setProduct] = useState(null);
-  const [rating, setRating] = useState(0);
-  const [form, setForm] = useState({
-    name: "",
-    comment: "",
-  });
+  const [related, setRelated] = useState([]);
+  const [tab, setTab] = useState("description");
 
   useEffect(() => {
-    API.get(`/products/${id}`)
-      .then(res => setProduct(res.data))
-      .catch(err => console.log(err));
+    fetchProduct();
   }, [id]);
 
-  const handleReview = async () => {
-    if (!form.name || !form.comment || rating === 0) {
-      alert("Fill all review fields");
-      return;
-    }
+  const fetchProduct = async () => {
+    const res = await API.get(`/products/${id}`);
+    setProduct(res.data);
 
-    await API.post(`/products/${id}/review`, {
-      name: form.name,
-      rating,
-      comment: form.comment,
-    });
+    const relatedRes = await API.get(
+      `/products/category/${res.data.category._id}`
+    );
 
-    const updated = await API.get(`/products/${id}`);
-    setProduct(updated.data);
-
-    setForm({ name: "", comment: "" });
-    setRating(0);
+    setRelated(
+      relatedRes.data.filter((p) => p._id !== id)
+    );
   };
 
   if (!product) return <p style={{ padding: 40 }}>Loading...</p>;
 
   return (
-    <div className="product-details">
+    <div className="product-page">
 
-      {/* LEFT IMAGE */}
-      <div className="details-left">
-        <img src={product.image} alt={product.name} />
+      {/* TOP SECTION */}
+      <div className="product-top">
+
+        {/* LEFT IMAGE */}
+        <div className="product-image">
+          <img src={product.image} alt={product.name} />
+        </div>
+
+        {/* RIGHT DETAILS */}
+        <div className="product-info">
+          <span className="stock">IN STOCK</span>
+
+          <h1>{product.name}</h1>
+
+          <p className="price">₹ {product.price}</p>
+
+          <p className="short-desc">
+            {product.description}
+          </p>
+
+          <button
+            className="add-cart-btn"
+            onClick={() => addToCart(product)}
+          >
+            ADD TO CART
+          </button>
+
+          <div className="meta">
+            <p><strong>Category:</strong> {product.category?.name}</p>
+          </div>
+        </div>
+
       </div>
 
-      {/* RIGHT INFO */}
-      <div className="details-right">
-        <h1>{product.name}</h1>
-        <p className="price">₹ {product.price}</p>
+      {/* TABS SECTION */}
+      <div className="tabs-section">
 
-        <div className="rating-display">
-          {[...Array(5)].map((_, i) => (
-            <FaStar
-              key={i}
-              color={i < Math.round(product.averageRating) ? "#ffc107" : "#ddd"}
-            />
-          ))}
-          <span>({product.reviews?.length || 0} reviews)</span>
-        </div>
-
-        <div className="actions">
-          <button onClick={() => addToCart(product)}>
-            Add To Cart
+        <div className="tabs">
+          <button
+            className={tab === "description" ? "active" : ""}
+            onClick={() => setTab("description")}
+          >
+            Description
           </button>
 
-          <FaHeart
-            className={`wishlist-icon ${
-              isInWishlist(product._id) ? "active" : ""
-            }`}
-            onClick={() => toggleWishlist(product)}
-          />
-        </div>
-
-        {/* REVIEW SECTION */}
-        <div className="review-section">
-          <h3>Write a Review</h3>
-
-          <div className="star-select">
-            {[...Array(5)].map((_, i) => (
-              <FaStar
-                key={i}
-                onClick={() => setRating(i + 1)}
-                color={i < rating ? "#ffc107" : "#ddd"}
-                className="star"
-              />
-            ))}
-          </div>
-
-          <input
-            placeholder="Your Name"
-            value={form.name}
-            onChange={(e) =>
-              setForm({ ...form, name: e.target.value })
-            }
-          />
-
-          <textarea
-            placeholder="Write comment..."
-            value={form.comment}
-            onChange={(e) =>
-              setForm({ ...form, comment: e.target.value })
-            }
-          />
-
-          <button className="submit-review" onClick={handleReview}>
-            Submit Review
+          <button
+            className={tab === "info" ? "active" : ""}
+            onClick={() => setTab("info")}
+          >
+            Additional Information
           </button>
         </div>
 
-        {/* SHOW REVIEWS */}
-        <div className="all-reviews">
-          <h3>Customer Reviews</h3>
+        <div className="tab-content">
 
-          {product.reviews?.length === 0 && (
-            <p>No reviews yet</p>
+          {tab === "description" && (
+            <div className="description-box">
+              <p>{product.description}</p>
+
+              <h4>Ingredients</h4>
+              <p>{product.ingredients}</p>
+
+              <h4>Recommended Usage</h4>
+              <p>{product.usage}</p>
+            </div>
           )}
 
-          {product.reviews?.map((r, index) => (
-            <div key={index} className="review-card">
-              <strong>{r.name}</strong>
+          {tab === "info" && (
+            <table className="info-table">
+              <tbody>
+                <tr>
+                  <td>Weight</td>
+                  <td>0.1 kg</td>
+                </tr>
+                <tr>
+                  <td>Dimensions</td>
+                  <td>10 × 10 × 8 cm</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
 
-              <div>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    color={i < r.rating ? "#ffc107" : "#ddd"}
-                  />
-                ))}
-              </div>
-
-              <p>{r.comment}</p>
-            </div>
-          ))}
         </div>
 
       </div>
+
+      {/* RELATED PRODUCTS */}
+      <div className="related-section">
+        <h2>Related products</h2>
+
+        <div className="related-grid">
+          {related.slice(0, 4).map((p) => (
+            <ProductCard key={p._id} product={p} />
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }

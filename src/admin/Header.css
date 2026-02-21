@@ -6,6 +6,55 @@
   cursor: pointer;
 }
 
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.profile-dropdown p {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.profile-dropdown p:hover {
+  background: #f5f5f5;
+}
+
+.profile-dropdown .logout {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.profile-dropdown input {
+  width: 85%;
+  margin: 8px auto;
+  display: block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.profile-dropdown button {
+  width: 85%;
+  margin: 8px auto;
+  display: block;
+  padding: 8px;
+  background: #7a2e00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
 .login-popup {
   position: absolute;
   top: 45px;

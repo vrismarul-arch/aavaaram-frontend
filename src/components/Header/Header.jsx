@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FiSearch,
   FiUser,
@@ -10,18 +10,19 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";   // ✅ ADD THIS
+import { useWishlist } from "../../context/WishlistContext";
+import { useAdmin } from "../../context/AdminContext";
 
 import "./Header.css";
 
 export default function Header() {
+
   const navigate = useNavigate();
+  const dropdownRef = useRef();
 
-  // ✅ Cart
   const { cart, openCart } = useCart();
-
-  // ✅ Wishlist
   const { wishlist } = useWishlist();
+  const { adminToken, logout } = useAdmin();
 
   const API = import.meta.env.VITE_API_URL;
 
@@ -34,7 +35,9 @@ export default function Header() {
   const [categories, setCategories] = useState([]);
   const [showShop, setShowShop] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
+  /* 🔥 Fetch categories */
   useEffect(() => {
     fetch(`${API}/api/categories`)
       .then(res => res.json())
@@ -48,13 +51,30 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
 
+  /* 🔥 Close dropdown on outside click */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowProfile(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       {/* TOP BAR */}
       <div className="top-bar">{texts[textIndex]}</div>
 
       <header className="main-header">
-        
+
         {/* LOGO */}
         <div className="logo" onClick={() => navigate("/")}>
           <img src="/logo/logo.png" alt="logo" />
@@ -95,18 +115,53 @@ export default function Header() {
         <div className="icons">
 
           {/* SEARCH */}
-          <FiSearch 
+          <FiSearch
             className="icon"
-            onClick={() => navigate("/search")} 
+            onClick={() => navigate("/search")}
           />
 
-          <FiUser 
-  className="icon"
-  onClick={() => navigate("/admin-login")}
-/>
+          {/* ADMIN PROFILE */}
+          <div
+            className="profile-wrapper"
+            ref={dropdownRef}
+          >
+            <FiUser
+              className="icon"
+              onClick={() => {
+                if (!adminToken) {
+                  navigate("/admin-login");
+                } else {
+                  setShowProfile(!showProfile);
+                }
+              }}
+            />
 
+            {adminToken && showProfile && (
+              <div className="profile-dropdown">
+                <p
+                  onClick={() => {
+                    navigate("/admin/dashboard");
+                    setShowProfile(false);
+                  }}
+                >
+                  Dashboard
+                </p>
 
-          {/* ❤️ WISHLIST */}
+                <p
+                  className="logout"
+                  onClick={() => {
+                    logout();
+                    setShowProfile(false);
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* WISHLIST */}
           <div
             className="icon-badge"
             onClick={() => navigate("/wishlist")}
@@ -117,7 +172,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* 🛒 CART */}
+          {/* CART */}
           <div
             className="icon-badge"
             onClick={openCart}
@@ -128,7 +183,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* MOBILE MENU ICON */}
+          {/* MOBILE MENU */}
           <span
             className="menu-icon"
             onClick={() => setMobileMenu(!mobileMenu)}

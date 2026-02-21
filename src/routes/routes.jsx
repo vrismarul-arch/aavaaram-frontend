@@ -26,6 +26,9 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 /* LAYOUT */
 import UserLayout from "../layouts/UserLayout";
+import MyOrders from "../pages/MyOrders/MyOrders";
+import Register from "../pages/User/Register";
+import Login from "../pages/User/Login";
 
 export default function AppRoutes() {
   return (
@@ -44,10 +47,17 @@ export default function AppRoutes() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<Checkout />} />
 
+      
+
       {/* ================= ADMIN LOGIN ================= */}
       <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/my-orders" element={<MyOrders />} />
 
       {/* ================= ADMIN PROTECTED ================= */}
+      
+      {/* ================= AUTH ================= */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route
         path="/admin"
         element={

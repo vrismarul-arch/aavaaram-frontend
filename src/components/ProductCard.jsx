@@ -1,56 +1,42 @@
-import { FaHeart, FaEye, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
-
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const liked = isInWishlist(product._id);
 
   return (
-    <div className="product-card">
+    <div className="modern-card">
 
-      <div className="product-img">
-        <img src={product.image} alt={product.name} />
-
-        <div className="img-actions">
-          <button
-            onClick={() => toggleWishlist(product)}
-            style={{
-              color: liked ? "red" : "#555"
-            }}
-          >
-            <FaHeart />
-          </button>
-
-          <button>
-            <FaEye />
-          </button>
-        </div>
-      </div>
-
-      <div className="product-info">
-        <h3>{product.name}</h3>
-
-        <div className="rating">
-          {[...Array(4)].map((_, i) => (
-            <FaStar key={i} />
-          ))}
-          <span>{product.reviews || 20} reviews</span>
-        </div>
-
-        <p className="price">Rs. {product.price}</p>
-      </div>
-
-      <button
-        className="add-cart"
-        onClick={() => addToCart(product)}
+      <div
+        className="modern-img"
+        onClick={() => navigate(`/product/${product._id}`)}
       >
-        Add To Cart
-      </button>
+        <img src={product.image} alt={product.name} />
+      </div>
+
+      <div className="modern-info">
+        <h3>{product.name}</h3>
+        <p className="price">₹ {product.price}</p>
+
+        <div className="modern-actions">
+          <button onClick={() => addToCart(product)}>
+            Add To Cart
+          </button>
+
+          <FaHeart
+            onClick={() => toggleWishlist(product)}
+            color={liked ? "red" : "#888"}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

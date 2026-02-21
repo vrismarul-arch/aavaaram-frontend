@@ -26,7 +26,8 @@ export default function Banner() {
       {banners.map((b) => (
         <SwiperSlide key={b._id}>
           <img
-            src={`${API}/uploads/${b.image}`}
+            src={b.image}
+
             alt="banner"
             className="home-banner-img"
           />

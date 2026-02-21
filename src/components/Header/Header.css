@@ -112,3 +112,27 @@
   border-radius: 50%;
 }
 
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: white;
+  width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 8px 0;
+  z-index: 999;
+}
+
+.profile-dropdown p {
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.profile-dropdown p:hover {
+  background: #f5f5f5;
+}

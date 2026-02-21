@@ -3,7 +3,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 const AdminContext = createContext();
 
 export function AdminProvider({ children }) {
-
   const [adminToken, setAdminToken] = useState(
     localStorage.getItem("adminToken") || null
   );
@@ -24,9 +23,7 @@ export function AdminProvider({ children }) {
     setAdminToken(null);
   };
 
-  const isLoggedIn = () => {
-    return !!adminToken;
-  };
+  const isLoggedIn = !!adminToken;
 
   return (
     <AdminContext.Provider

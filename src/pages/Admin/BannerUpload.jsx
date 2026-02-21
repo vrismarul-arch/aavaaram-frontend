@@ -51,7 +51,8 @@ export default function BannerUpload() {
       <div className="banner-grid">
         {banners.map((b) => (
           <div className="banner-card" key={b._id}>
-            <img src={`${API}/uploads/${b.image}`} />
+            <img src={b.image} />
+
 
             <label className="edit-btn">
               Edit

@@ -11,9 +11,13 @@ export default function ProductUpload() {
     name: "",
     price: "",
     category: "",
-    image: "",
+    description: "",
+    ingredients: "",
+    usage: "",
     bestSeller: false,
   });
+
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -30,30 +34,44 @@ export default function ProductUpload() {
     setCategories(res.data);
   };
 
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setForm({ ...form, image: reader.result });
-    };
-    reader.readAsDataURL(file);
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
   };
 
   const saveProduct = async () => {
-    await API.post("/products", {
-      ...form,
-      price: Number(form.price),
-    });
+    try {
+      const formData = new FormData();
 
-    setOpen(false);
-    setForm({
-      name: "",
-      price: "",
-      category: "",
-      image: "",
-      bestSeller: false,
-    });
-    fetchProducts();
+      formData.append("name", form.name);
+      formData.append("price", form.price);
+      formData.append("category", form.category);
+      formData.append("description", form.description);
+      formData.append("ingredients", form.ingredients);
+      formData.append("usage", form.usage);
+      formData.append("bestSeller", form.bestSeller);
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      await API.post("/products", formData);
+
+      setOpen(false);
+      setForm({
+        name: "",
+        price: "",
+        category: "",
+        description: "",
+        ingredients: "",
+        usage: "",
+        bestSeller: false,
+      });
+      setImageFile(null);
+
+      fetchProducts();
+    } catch (err) {
+      console.log("ERROR:", err.response?.data || err.message);
+    }
   };
 
   const deleteProduct = async (id) => {
@@ -88,7 +106,7 @@ export default function ProductUpload() {
             <tr key={p._id}>
               <td>{index + 1}</td>
               <td>
-                <img src={p.image} className="table-img" />
+                {p.image && <img src={p.image} className="table-img" alt="" />}
               </td>
               <td>{p.name}</td>
               <td>₹ {p.price}</td>
@@ -107,7 +125,6 @@ export default function ProductUpload() {
         </tbody>
       </table>
 
-      {/* MODAL */}
       {open && (
         <div className="modal-overlay">
           <div className="modal">
@@ -144,7 +161,31 @@ export default function ProductUpload() {
               ))}
             </select>
 
-            <input type="file" onChange={uploadImage} />
+            <textarea
+              placeholder="Description"
+              value={form.description}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
+            />
+
+            <textarea
+              placeholder="Ingredients"
+              value={form.ingredients}
+              onChange={(e) =>
+                setForm({ ...form, ingredients: e.target.value })
+              }
+            />
+
+            <textarea
+              placeholder="Usage"
+              value={form.usage}
+              onChange={(e) =>
+                setForm({ ...form, usage: e.target.value })
+              }
+            />
+
+            <input type="file" onChange={handleFileChange} />
 
             <label>
               <input

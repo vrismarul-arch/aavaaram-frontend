@@ -2,8 +2,11 @@ import { Navigate } from "react-router-dom";
 import { useAdmin } from "../context/AdminContext";
 
 export default function ProtectedRoute({ children }) {
+  const { adminToken } = useAdmin();
 
-  const { isLoggedIn } = useAdmin();
+  if (!adminToken) {
+    return <Navigate to="/admin-login" replace />;
+  }
 
-  return isLoggedIn() ? children : <Navigate to="/admin-login" />;
+  return children;
 }
