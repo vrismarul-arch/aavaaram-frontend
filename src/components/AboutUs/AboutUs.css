@@ -1,0 +1,93 @@
+.about-page {
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+
+/* HERO */
+.about-hero {
+  background: #eaf3e2;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 42px;
+  color: #1f5c3a;
+}
+
+.about-hero p {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* SECTION */
+.about-section {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.about-section h2,
+.about-section h3 {
+  color: #1f5c3a;
+  margin-bottom: 15px;
+}
+
+.about-section ul {
+  padding-left: 20px;
+}
+
+.about-section li {
+  margin-bottom: 10px;
+}
+
+/* IMAGE SECTION */
+.image-section {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.image-section img {
+  width: 50%;
+  border-radius: 10px;
+}
+
+.image-section.reverse {
+  flex-direction: row-reverse;
+}
+
+/* TEAM */
+.team-section {
+  background: #f5f7f4;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.team-section h2 {
+  color: #1f5c3a;
+  margin-bottom: 40px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.team-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+}

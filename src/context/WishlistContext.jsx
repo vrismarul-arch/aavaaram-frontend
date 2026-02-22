@@ -5,18 +5,25 @@ const WishlistContext = createContext();
 export function WishlistProvider({ children }) {
 
   const [wishlist, setWishlist] = useState(() => {
-    const saved = localStorage.getItem("wishlist");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("wishlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
 
+  // Save to localStorage
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // ✅ Add / Remove toggle
+  // 🔥 Toggle Add / Remove
   const toggleWishlist = (product) => {
-    setWishlist(prev => {
-      const exists = prev.find(item => item._id === product._id);
+    if (!product || !product._id) return;
+
+    setWishlist((prev) => {
+      const exists = prev.some(item => item._id === product._id);
 
       if (exists) {
         return prev.filter(item => item._id !== product._id);
@@ -26,14 +33,14 @@ export function WishlistProvider({ children }) {
     });
   };
 
-  // ✅ Explicit Remove Function (NEW)
+  // Remove explicitly
   const removeFromWishlist = (id) => {
-    setWishlist(prev =>
+    setWishlist((prev) =>
       prev.filter(item => item._id !== id)
     );
   };
 
-  // ✅ Check if item exists
+  // Check if exists
   const isInWishlist = (id) => {
     return wishlist.some(item => item._id === id);
   };
@@ -43,7 +50,7 @@ export function WishlistProvider({ children }) {
       value={{
         wishlist,
         toggleWishlist,
-        removeFromWishlist,   // ✅ added
+        removeFromWishlist,
         isInWishlist
       }}
     >

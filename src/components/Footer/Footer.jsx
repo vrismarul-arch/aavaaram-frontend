@@ -1,11 +1,29 @@
 // src/components/Footer/Footer.jsx
 import "./Footer.css";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-top">
 
+        {/* 🔥 LOGO + ABOUT */}
+        <div className="footer-col footer-brand">
+          <img src="/logo/logo.png" alt="Logo" className="footer-logo" />
+
+          <p className="footer-desc">
+            Bringing authentic taste and tradition to your home.
+            Crafted with love, purity and generations of expertise.
+          </p>
+
+          <div className="social-icons">
+            <FaFacebookF />
+            <FaInstagram />
+            <FaYoutube />
+          </div>
+        </div>
+
+        {/* SAVOURIES */}
         <div className="footer-col">
           <h4>Savouries</h4>
           <ul>
@@ -18,6 +36,7 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* SWEETS */}
         <div className="footer-col">
           <h4>Sweets</h4>
           <ul>
@@ -30,6 +49,7 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* INFORMATION */}
         <div className="footer-col">
           <h4>Information</h4>
           <ul>
@@ -42,15 +62,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="footer-col">
-          <h4>My Account</h4>
-          <ul>
-            <li>My Account</li>
-            <li>Order History</li>
-            <li>Wish List</li>
-          </ul>
-        </div>
-
+        {/* CONTACT */}
         <div className="footer-col">
           <h4>Contact Us</h4>
           <p>
@@ -67,9 +79,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <p>License Number: 12422032000859</p>
         <p>© 2025 Sattur Mittai Kadai. All rights reserved.</p>
-        <p>
-          Designed & Developed by <b>Weone Digital</b>
-        </p>
+        <p>Designed & Developed by <b>Weone Digital</b></p>
       </div>
     </footer>
   );

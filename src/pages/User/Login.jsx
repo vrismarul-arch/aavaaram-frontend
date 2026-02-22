@@ -1,124 +1,56 @@
 import { useState } from "react";
-import { Form, Input, Button, message } from "antd";
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import api from "../../services/api";
-import "./auth.css";
 
-export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
+export default function Login() {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
 
-  // =============================
-  // Email/Password Login
-  // =============================
-  const onFinish = async (values) => {
-    try {
-      setLoading(true);
-
-      const res = await api.post("/auth/login", values);
-
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
-
-      message.success("Login successful");
-
-      if (res.data.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
-    } catch (err) {
-      message.error(err.response?.data?.error || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // =============================
-  // Google Login
-  // =============================
-  const handleGoogleSuccess = async (credentialResponse) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      console.log("Google Response:", credentialResponse);
-
-      if (!credentialResponse?.credential) {
-        message.error("No Google credential received");
-        return;
-      }
-
-      const res = await api.post("/auth/google", {
-        credential: credentialResponse.credential,
-      });
+      const res = await api.post("/auth/login", form);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
-      message.success("Google login successful");
-
-      if (res.data.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
+      navigate("/");
     } catch (err) {
-      console.error(err);
-      message.error("Google login failed");
+      alert(err.response?.data?.error || "Login failed");
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-left">
-        <div className="overlay" />
-      </div>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter email"
+        onChange={handleChange}
+        required
+      />
 
-      <div className="auth-right">
-        <div className="auth-box">
-          <h2 className="title text-center">Login</h2>
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter password"
+        onChange={handleChange}
+        required
+      />
 
-          <Form onFinish={onFinish} className="auth-form">
-            <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Enter your email!" }]}
-            >
-              <Input
-                prefix={<MailOutlined />}
-                placeholder="Email"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: "Enter your password!" }]}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="Password"
-              />
-            </Form.Item>
-
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              block
-            >
-              Login
-            </Button>
-          </Form>
-
-          <div style={{ margin: "20px 0", textAlign: "center" }}>
-            OR
-          </div>
-
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => message.error("Google login failed")}
-          />
-        </div>
-      </div>
-    </div>
+      <button type="submit">Login</button>
+    </form>
   );
 }

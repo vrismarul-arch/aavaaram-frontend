@@ -11,6 +11,7 @@ import HeritageStory from "../../components/HeritageStory/HeritageStory";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import ProcessVideos from "../../components/ProcessVideos/ProcessVideos";
 import Banner from "../../components/Banner/Banner";
+import FAQ from "../../components/FAQ/FAQ";
 
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
         <HeritageStory /> 
         <Testimonials />
         <ProcessVideos />
+        <FAQ />
       
     </>
   );

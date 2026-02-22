@@ -1,93 +1,136 @@
-.product-card {
-  background: transparent;
-  border-radius: 6px;
+/* =========================
+   CARD CONTAINER
+==========================*/
+
+.modern-card {
+  background: #f3f3f3;
+  border-radius: 20px;
+  padding: 14px;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.modern-card:hover {
+  transform: translateY(-4px);
+}
+
+/* =========================
+   IMAGE SECTION
+==========================*/
+
+.modern-img {
+  position: relative;
+  border-radius: 16px;
   overflow: hidden;
 }
 
-.product-img {
-  position: relative;
-  background: #fff;
-  padding: 20px;
-}
-
-.product-img img {
+.modern-img img {
   width: 100%;
-  height: 260px;
+  height: 190px;   /* reduced size */
   object-fit: cover;
+  display: block;
+  border-radius: 16px;
 }
 
-.img-actions {
+/* =========================
+   HEART ICON (TOP RIGHT)
+==========================*/
+
+.wishlist-icon {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  opacity: 0;
-  transition: 0.3s;
-}
-
-.img-actions button {
-  background: #fff;
-  border: none;
-  padding: 8px;
+  top: 10px;
+  right: 10px;
+  background: #ffffff;
+  padding: 6px;
   border-radius: 50%;
+  font-size: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   cursor: pointer;
-  color: #ff6a2e;
+  transition: 0.3s ease;
 }
 
-.product-img:hover .img-actions {
-  opacity: 1;
+.wishlist-icon:hover {
+  transform: scale(1.1);
 }
 
-.product-info {
-  padding: 15px 5px;
+/* =========================
+   PRODUCT INFO
+==========================*/
+
+.modern-info {
+  margin-top: 14px;
 }
 
-.product-info h3 {
-  color: #ffb07c;
-  font-size: 18px;
+.modern-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff6a2c;
   margin-bottom: 6px;
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #ff8a4c;
-}
-
-.rating span {
-  color: #e7b9a1;
-}
-
 .price {
-  margin-top: 6px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 700;
+  color: #5a2b1f;
+  margin-bottom: 14px;
 }
 
-.add-cart {
+/* =========================
+   BUTTON
+==========================*/
+
+.modern-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.modern-actions button {
   width: 100%;
-  padding: 12px;
   background: #8b2e0e;
   border: none;
+  padding: 10px;
+  border-radius: 22px;
   color: #fff;
-  font-size: 15px;
+  font-size: 13px;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.add-cart:hover {
+.modern-actions button:hover {
   background: #a83a15;
 }
-.img-actions button {
-  background: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 50%;
+
+/* =========================
+   RESPONSIVE
+==========================*/
+
+@media (max-width: 1024px) {
+  .modern-img img {
+    height: 170px;
+  }
 }
 
-.img-actions button:hover {
-  background: #f3f3f3;
+@media (max-width: 768px) {
+
+  .modern-card {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .modern-img img {
+    height: 150px;
+  }
+
+  .modern-info h3 {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 14px;
+  }
+
+  .modern-actions button {
+    padding: 8px;
+    font-size: 12px;
+  }
 }

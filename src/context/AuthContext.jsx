@@ -36,9 +36,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // 📥 Called after successful login
-  const { data } = await api.get("/auth/profile", {
-  headers: { Authorization: `Bearer ${token}` },
-});
+  const login = (data, token) => {
+    localStorage.setItem("partnerToken", token);
+    setUser(data);
+  };
 
   // 🚪 Logout
   const logout = () => {

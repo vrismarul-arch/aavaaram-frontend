@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import API from "../../services/api";
 import ProductCard from "../../components/ProductCard";
 import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 import "./ProductDetails.css";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
   const [tab, setTab] = useState("description");
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     fetchProduct();
@@ -35,15 +38,12 @@ export default function ProductDetails() {
   return (
     <div className="product-page">
 
-      {/* TOP SECTION */}
       <div className="product-top">
 
-        {/* LEFT IMAGE */}
         <div className="product-image">
           <img src={product.image} alt={product.name} />
         </div>
 
-        {/* RIGHT DETAILS */}
         <div className="product-info">
           <span className="stock">IN STOCK</span>
 
@@ -55,12 +55,33 @@ export default function ProductDetails() {
             {product.description}
           </p>
 
-          <button
-            className="add-cart-btn"
-            onClick={() => addToCart(product)}
+          {/* QUANTITY + CART */}
+          <div className="cart-row">
+
+            <div className="qty-box">
+              <button onClick={() => qty > 1 && setQty(qty - 1)}>-</button>
+              <span>{qty}</span>
+              <button onClick={() => setQty(qty + 1)}>+</button>
+            </div>
+
+            <button
+              className="add-cart-btn"
+              onClick={() => addToCart({ ...product, qty })}
+            >
+              ADD TO CART
+            </button>
+
+          </div>
+
+          {/* ✅ FIXED WISHLIST */}
+          <div
+            className={`wishlist ${isInWishlist(product._id) ? "active" : ""}`}
+            onClick={() => toggleWishlist(product)}
           >
-            ADD TO CART
-          </button>
+            {isInWishlist(product._id)
+              ? "❤️ Added to wishlist"
+              : "♡ Add to wishlist"}
+          </div>
 
           <div className="meta">
             <p><strong>Category:</strong> {product.category?.name}</p>
@@ -69,7 +90,7 @@ export default function ProductDetails() {
 
       </div>
 
-      {/* TABS SECTION */}
+      {/* TABS */}
       <div className="tabs-section">
 
         <div className="tabs">
@@ -92,13 +113,13 @@ export default function ProductDetails() {
 
           {tab === "description" && (
             <div className="description-box">
-              <p>{product.description}</p>
 
               <h4>Ingredients</h4>
               <p>{product.ingredients}</p>
 
               <h4>Recommended Usage</h4>
               <p>{product.usage}</p>
+
             </div>
           )}
 
@@ -107,11 +128,11 @@ export default function ProductDetails() {
               <tbody>
                 <tr>
                   <td>Weight</td>
-                  <td>0.1 kg</td>
+                  <td>{product.weight}</td>
                 </tr>
                 <tr>
                   <td>Dimensions</td>
-                  <td>10 × 10 × 8 cm</td>
+                  <td>{product.dimensions}</td>
                 </tr>
               </tbody>
             </table>
@@ -121,7 +142,7 @@ export default function ProductDetails() {
 
       </div>
 
-      {/* RELATED PRODUCTS */}
+      {/* RELATED */}
       <div className="related-section">
         <h2>Related products</h2>
 

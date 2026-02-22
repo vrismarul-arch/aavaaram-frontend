@@ -17,29 +17,37 @@ export default function CartDrawer() {
 
   if (!isOpen) return null;
 
+  const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+
   return (
     <div className="drawer-overlay" onClick={closeCart}>
       <div
         className="drawer"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="drawer-header">
-          <h3>Cart ({cart.length})</h3>
-          <button onClick={closeCart}>✕</button>
-        </div>
+        {/* HEADER */}
+       <div className="drawer-header">
+  <h3>Cart ({cart.length})</h3>
+  <button className="close-btn" onClick={closeCart}>✕</button>
+</div>
 
         {cart.length === 0 ? (
           <p className="empty">Cart is empty</p>
         ) : (
           <>
+            {/* ITEMS */}
             <div className="drawer-items">
               {cart.map((item) => (
                 <div key={item._id} className="drawer-item">
+
                   <img src={item.image} alt={item.name} />
 
-                  <div>
+                  <div className="item-info">
                     <h4>{item.name}</h4>
-                    <p>₹ {item.price}</p>
+
+                    <p className="item-price">
+                      ₹ {item.price} x {item.qty}
+                    </p>
 
                     <div className="qty">
                       <button onClick={() => decrease(item._id)}>-</button>
@@ -52,23 +60,21 @@ export default function CartDrawer() {
                     className="remove"
                     onClick={() => removeItem(item._id)}
                   >
-                    ✕
+                    Remove
                   </button>
+
                 </div>
               ))}
             </div>
 
+            {/* FOOTER */}
             <div className="drawer-footer">
-              <h4>Total: ₹ {total}</h4>
-
-              <button
-                onClick={() => {
-                  closeCart();
-                  navigate("/cart");
-                }}
-              >
-                View Cart
-              </button>
+              <div className="total-row">
+                <span>Total:</span>
+                <span className="total-amount">
+                  Rs. {total}
+                </span>
+              </div>
 
               <button
                 className="checkout"
@@ -77,7 +83,17 @@ export default function CartDrawer() {
                   navigate("/checkout");
                 }}
               >
-                Checkout
+                Check Out
+              </button>
+
+              <button
+                className="view-cart-btn"
+                onClick={() => {
+                  closeCart();
+                  navigate("/cart");
+                }}
+              >
+                View Cart
               </button>
             </div>
           </>

@@ -199,9 +199,9 @@ export default function Header() {
           <p onClick={() => navigate("/")}>Home</p>
           <p onClick={() => navigate("/about")}>About Us</p>
           <p onClick={() => navigate("/shop")}>Shop</p>
-          <p>B2B</p>
+          {/* <p>B2B</p>
           <p>Blog</p>
-          <p>Contact</p>
+          <p>Contact</p> */}
         </div>
       )}
     </>

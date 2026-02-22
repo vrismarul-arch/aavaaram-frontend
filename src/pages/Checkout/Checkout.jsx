@@ -44,25 +44,55 @@ export default function Checkout() {
     if (!validate()) return;
 
     const orderData = {
-      customer: form,
-      products: cart.map(item => ({
+      items: cart.map(item => ({
         productId: item._id,
         name: item.name,
         price: item.price,
-        qty: item.qty,
+        quantity: item.qty,
         image: item.image
       })),
       totalAmount: total,
-      paymentMethod,
-      paymentStatus: paymentMethod === "ONLINE" ? "Paid" : "Pending",
-      orderStatus: "Placed"
+      customer: form
     };
 
-    await API.post("/orders", orderData);
+    // ================= COD =================
+    if (paymentMethod === "COD") {
+      await API.post("/payment/cod", orderData);
 
-    if (clearCart) clearCart();   // Fix error
+      clearCart();
+      navigate("/success");
+      return;
+    }
 
-    navigate("/order-success");
+    // ================= RAZORPAY =================
+    if (paymentMethod === "ONLINE") {
+      const res = await API.post("/payment/razorpay", {
+        amount: total
+      });
+
+      const options = {
+        key: "YOUR_RAZORPAY_KEY",
+        amount: res.data.amount,
+        currency: "INR",
+        order_id: res.data.id,
+
+        handler: async function () {
+          await API.post("/payment/verify", {
+            orderData
+          });
+
+          clearCart();
+          navigate("/success");
+        },
+
+        theme: {
+          color: "#6b1d00"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    }
   };
 
   return (
@@ -72,6 +102,7 @@ export default function Checkout() {
       <div className="checkout-left">
 
         <h2>Contact</h2>
+        <div className="row">
         <input
           name="email"
           placeholder="Email"
@@ -79,7 +110,7 @@ export default function Checkout() {
           className={errors.email && "error-input"}
         />
         {errors.email && <p className="error-text">{errors.email}</p>}
-
+         </div>
         <h2>Delivery</h2>
 
         <div className="row">
@@ -95,7 +126,7 @@ export default function Checkout() {
             onChange={handleChange}
             className={errors.lastName && "error-input"}
           />
-        </div>
+        {/* </div> */}
         {errors.lastName && <p className="error-text">{errors.lastName}</p>}
 
         <input
@@ -106,7 +137,7 @@ export default function Checkout() {
         />
         {errors.address && <p className="error-text">{errors.address}</p>}
 
-        <div className="row">
+        {/* <div className="row"> */}
           <input
             name="city"
             placeholder="City"
@@ -120,7 +151,7 @@ export default function Checkout() {
             onChange={handleChange}
             className={errors.pincode && "error-input"}
           />
-        </div>
+        {/* </div> */}
 
         {errors.city && <p className="error-text">{errors.city}</p>}
         {errors.pincode && <p className="error-text">{errors.pincode}</p>}
@@ -132,32 +163,34 @@ export default function Checkout() {
           className={errors.phone && "error-input"}
         />
         {errors.phone && <p className="error-text">{errors.phone}</p>}
-
-        <h2>Payment</h2>
-
-        <div className="payment-box">
-          <label>
-            <input
-              type="radio"
-              checked={paymentMethod === "ONLINE"}
-              onChange={() => setPaymentMethod("ONLINE")}
-            />
-            Razorpay Secure (UPI, Cards)
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              checked={paymentMethod === "COD"}
-              onChange={() => setPaymentMethod("COD")}
-            />
-            Cash on Delivery
-          </label>
         </div>
+       <h2>Payment</h2>
 
-        <button className="pay-btn" onClick={handlePlaceOrder}>
-          Pay now
-        </button>
+<div className="payment-container">
+
+  <div className="payment-option">
+    <span>Razorpay Secure (UPI, Cards)</span>
+    <input
+      type="radio"
+      name="payment"
+      checked={paymentMethod === "ONLINE"}
+      onChange={() => setPaymentMethod("ONLINE")}
+    />
+  </div>
+
+  <div className="payment-option">
+    <span>Cash on Delivery</span>
+    <input
+      type="radio"
+      name="payment"
+      checked={paymentMethod === "COD"}
+      onChange={() => setPaymentMethod("COD")}
+    />
+  </div>
+
+</div>
+
+        
 
       </div>
 
@@ -181,7 +214,9 @@ export default function Checkout() {
           <h3>Total</h3>
           <h3>₹{total}</h3>
         </div>
-
+          <button className="pay-btn" onClick={handlePlaceOrder}>
+          Pay Now
+        </button>
       </div>
     </div>
   );

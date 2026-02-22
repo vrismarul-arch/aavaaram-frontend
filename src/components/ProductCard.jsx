@@ -14,13 +14,25 @@ export default function ProductCard({ product }) {
   return (
     <div className="modern-card">
 
+      {/* IMAGE SECTION */}
       <div
         className="modern-img"
         onClick={() => navigate(`/product/${product._id}`)}
       >
         <img src={product.image} alt={product.name} />
+
+        {/* ❤️ HEART MOVED HERE */}
+        <FaHeart
+          className="wishlist-icon"
+          onClick={(e) => {
+            e.stopPropagation();   // prevent image click
+            toggleWishlist(product);
+          }}
+          color={liked ? "red" : "#888"}
+        />
       </div>
 
+      {/* INFO SECTION */}
       <div className="modern-info">
         <h3>{product.name}</h3>
         <p className="price">₹ {product.price}</p>
@@ -29,14 +41,9 @@ export default function ProductCard({ product }) {
           <button onClick={() => addToCart(product)}>
             Add To Cart
           </button>
-
-          <FaHeart
-            onClick={() => toggleWishlist(product)}
-            color={liked ? "red" : "#888"}
-            style={{ cursor: "pointer" }}
-          />
         </div>
       </div>
+
     </div>
   );
 }

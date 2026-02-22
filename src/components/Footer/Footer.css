@@ -90,3 +90,50 @@
     font-size: 12px;
   }
 }
+/* ========================= */
+/* BRAND COLUMN (LOGO AREA) */
+/* ========================= */
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-logo {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+.footer-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  color: #4a2f1a;
+}
+
+/* ========================= */
+/* SOCIAL ICONS */
+/* ========================= */
+
+.social-icons {
+  display: flex;
+  gap: 14px;
+}
+
+.social-icons svg {
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6b1d00;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.social-icons svg:hover {
+  background: #6b1d00;
+  color: #fff;
+  transform: translateY(-3px);
+}

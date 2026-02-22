@@ -61,6 +61,12 @@ export function CartProvider({ children }) {
     );
   };
 
+  /* ✅ ADD THIS FUNCTION */
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
+  };
+
   const total = cart.reduce(
     (acc, item) => acc + item.price * item.qty,
     0
@@ -78,6 +84,7 @@ export function CartProvider({ children }) {
         isOpen,
         openCart: () => setIsOpen(true),
         closeCart: () => setIsOpen(false),
+        clearCart   // ✅ EXPORT IT
       }}
     >
       {children}

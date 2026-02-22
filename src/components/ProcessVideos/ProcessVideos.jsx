@@ -5,22 +5,22 @@ export default function ProcessVideos() {
     {
       title: "",
       video: "/videos/laddu.mp4",
-      // thumb: "/images/laddu.jpg",
+     thumb: "/images/chikki.jpg",
     },
     {
       title: "",
       video: "/videos/adhirasam.mp4",
-      // thumb: "/images/adhirasam.jpg",
+      thumb: "/images/chikki.jpg",
     },
     {
       title: "",
       video: "/videos/karupatti.mp4",
-      // thumb: "/images/karupatti.jpg",
+      thumb: "/images/chikki.jpg",
     },
     {
       title: "",
       video: "/videos/chikki.mp4",
-      // thumb: "/images/chikki.jpg",
+      thumb: "/images/chikki.jpg",
     },
   ];
 
@@ -31,8 +31,7 @@ export default function ProcessVideos() {
         <span className="process-sub">OUR PROCESS</span>
         <h2>Process Videos</h2>
         <p>
-          A glimpse into how our traditional sweets are carefully prepared with
-          hygiene, precision, and passion.
+         A closer look at how our products are carefully crafted using traditional methods, strict hygiene standards, and modern quality control practices.
         </p>
       </div>
 

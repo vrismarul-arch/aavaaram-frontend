@@ -9,6 +9,9 @@ import WishlistPage from "../pages/Wishlist/WishlistPage";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import CartPage from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
+import PaymentPage from "../pages/PaymentPage";       // ✅ ADD
+import Success from "../pages/Success";               // ✅ ADD
+import MyOrders from "../pages/MyOrders/MyOrders";
 
 /* ADMIN */
 import AdminLayout from "../admin/AdminLayout";
@@ -20,44 +23,49 @@ import CollectionUpload from "../pages/Admin/CollectionUpload";
 import Bookings from "../pages/Admin/Bookings";
 import Profile from "../pages/Admin/Profile";
 import AdminLogin from "../pages/Admin/AdminLogin";
+import AdminOrders from "../admin/AdminOrders";       // ✅ ADD
+
+/* AUTH */
+import Register from "../pages/User/Register";
+import Login from "../pages/User/Login";
 
 /* PROTECTED */
 import ProtectedRoute from "../components/ProtectedRoute";
 
 /* LAYOUT */
 import UserLayout from "../layouts/UserLayout";
-import MyOrders from "../pages/MyOrders/MyOrders";
-import Register from "../pages/User/Register";
-import Login from "../pages/User/Login";
+import AboutUs from "../components/AboutUs/AboutUs";
 
 export default function AppRoutes() {
   return (
     <Routes>
 
-      {/* ================= USER ================= */}
+      {/* ================= USER LAYOUT ================= */}
       <Route element={<UserLayout />}>
+
         <Route path="/" element={<Home />} />
         <Route path="/category/:id" element={<CategoryPage />} />
         <Route path="/best-sellers" element={<BestSellersPage />} />
         <Route path="/collection/:id" element={<CollectionPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<PaymentPage />} />     {/* ✅ ADD */}
+        <Route path="/success" element={<Success />} />         {/* ✅ ADD */}
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/about" element={<AboutUs />} />
+
       </Route>
-
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<Checkout />} />
-
-      
 
       {/* ================= ADMIN LOGIN ================= */}
       <Route path="/admin-login" element={<AdminLogin />} />
-      <Route path="/my-orders" element={<MyOrders />} />
 
-      {/* ================= ADMIN PROTECTED ================= */}
-      
       {/* ================= AUTH ================= */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      {/* ================= ADMIN PROTECTED ================= */}
       <Route
         path="/admin"
         element={
@@ -74,6 +82,7 @@ export default function AppRoutes() {
         <Route path="shop" element={<CollectionUpload />} />
         <Route path="bookings" element={<Bookings />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="orders" element={<AdminOrders />} /> {/* ✅ ADD */}
       </Route>
 
     </Routes>
