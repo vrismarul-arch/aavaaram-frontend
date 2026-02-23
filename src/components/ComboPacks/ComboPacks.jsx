@@ -4,19 +4,25 @@ export default function ComboPacks() {
   const combos = [
     {
       id: 1,
-      name: "Liver Detox Combo",
+      name: "Aavaaram + Fenugreek _ static",
       desc: "Rejuvenate your system for urban living.",
       img: "/images/combo-liver.png",
     },
     {
       id: 2,
-      name: "Sleep & Relaxation Combo",
+      name: "Ashwagandha + Brahmi",
       desc: "Unwind naturally. Restful nights assured.",
       img: "/images/combo-sleep.png",
     },
     {
       id: 3,
-      name: "Daily Vitality Combo",
+      name: "Bhumi Amala + Turmeric _ static",
+      desc: "Boost energy & immunity. Stay active.",
+      img: "/images/combo-vitality.png",
+    },
+      {
+      id: 3,
+      name: "Shilajit + Ashwagandha",
       desc: "Boost energy & immunity. Stay active.",
       img: "/images/combo-vitality.png",
     },

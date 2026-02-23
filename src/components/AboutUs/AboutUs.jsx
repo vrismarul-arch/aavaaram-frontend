@@ -15,10 +15,9 @@ export default function AboutUs() {
       {/* COMPANY SECTION */}
       <section className="about-section">
         <h2>SRG SUPER FOODS INDIA PRIVATE LIMITED</h2>
+        <p>Manufacturer of Super Foods and Herbal Foods</p>
         <p>
-          SRG Super Foods India Private Limited is dedicated to creating impactful value
-          in the superfoods industry. Through our series of Aavaaram products,
-          we aim to create a healthy lifestyle using sustainable concepts.
+      SRG Super Foods India Private Limited, one of the forerunner organization dedicated for creating impactful value chain in super foods industry and providing the need of the hour products to the world of our esteemed customers. We, through our series of “ aavaaram “ products, aim to create of adopting super foods in the lifestyle of every one with a sustainability concept of “ Produced by nature and delivered by us ”.
         </p>
       </section>
 
@@ -26,9 +25,7 @@ export default function AboutUs() {
       <section className="about-section">
         <h3>Vision</h3>
         <p>
-          To inspire generations towards a healthy lifestyle by leading from the
-          forefront of the superfood industry with the highest standards,
-          quality and sustainability.
+          Aim to inspire the generations towards the healthy lifestyle by leading from forefront of the super food industry with the highest standards, quality, sustainability of all stake holders and ethical values.
         </p>
       </section>
 
@@ -36,8 +33,7 @@ export default function AboutUs() {
       <section className="about-section">
         <h3>Mission</h3>
         <p>
-          To be a leader in reliable agro-food organization known for quality,
-          ethical practices and respect for natural resources.
+          To be a leader and reliable agro food organization for its quality, ethical practices, value chain, eco system and respect for national resources.
         </p>
       </section>
 
@@ -45,10 +41,10 @@ export default function AboutUs() {
       <section className="about-section">
         <h3>Our Values</h3>
         <ul>
-          <li><b>Quality Excellence</b> – Finest natural ingredients.</li>
-          <li><b>Sustainability</b> – Eco-friendly farming practices.</li>
-          <li><b>Innovation</b> – Continuous product development.</li>
-          <li><b>Consumer Education</b> – Empower informed choices.</li>
+          <li><b>Quality Excellence</b> - we precisely select and process the finest natural ingredients so as to make our every product is a symbol of purity and taste.</li>
+          <li><b>Sustainability</b> – we support and stand with the model of adopting sustainable farming practices, free from pesticide and minimizing our environmental impact at every stage of production.</li>
+          <li><b>Innovation for wellness</b> – we continuously innovate to develop new food products that not only meet nutritional needs but also delight taste buds , making healthy eating enjoyable .</li>
+          <li><b>Consumer Education</b> – we empower consumers with knowledge about the benefit of our food products and the importance of making conscious informed choices for their well being..</li>
         </ul>
       </section>
 
@@ -58,8 +54,7 @@ export default function AboutUs() {
         <div>
           <h3>Our Farm</h3>
           <p>
-            We work with certified organic farms in South India blessed with
-            rich biodiversity and natural resources.
+            We are proud of working with one of the largest certified organic farms in South India. Our farms are bestowed with greatness of the Western Ghats which is the world’s hottest biodiversity and known for its rich and unique flora and fauna. Farms in Sivagiri, Dindigul and Kodaikanal are the testimonials for our tireless efforts in reviving of the ancient agro knowledge and techniques.
           </p>
         </div>
       </section>
@@ -70,8 +65,7 @@ export default function AboutUs() {
         <div>
           <h3>Our Factory</h3>
           <p>
-            A modern manufacturing facility with international standards
-            located in Tamil Nadu Food Park.
+           A modern factory with international standards is being established for our manufacturing facility at Sipcot Nilakottai, Dindigul within the campus of Tamil Nadu food park.
           </p>
         </div>
       </section>
@@ -82,8 +76,7 @@ export default function AboutUs() {
         <div>
           <h3>Research & Development</h3>
           <p>
-            Our R&D team develops innovative agro and bio-based products
-            through scientific research and modern food technology.
+            The Research and Development Team has successfully brought a range of agro and bio based holistic healthy products under the concept of “Food as Medicine and Medicine as Food”. The team is known for its innovation, research, development, commercialization of new products, processes or services driven by technology or intellectual property in the areas of food science, nutraceutical and natural agro farming. The scientists involved in R&D are from the most premier organizations like Indian Institute of Food Processing, Govt. Of India, Tamil Nadu Agriculture University, Gandhigram Trust, Loyola College-Chennai.
           </p>
         </div>
       </section>
@@ -91,6 +84,7 @@ export default function AboutUs() {
       {/* TEAM SECTION */}
       <section className="team-section">
         <h2>Team Aavaaram</h2>
+        
 
         <div className="team-grid">
           <div className="team-card">

@@ -35,6 +35,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 /* LAYOUT */
 import UserLayout from "../layouts/UserLayout";
 import AboutUs from "../components/AboutUs/AboutUs";
+import Search from "../pages/Search/Search";
 
 export default function AppRoutes() {
   return (
@@ -55,6 +56,7 @@ export default function AppRoutes() {
         <Route path="/success" element={<Success />} />         {/* ✅ ADD */}
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/search" element={<Search />} />
 
       </Route>
 

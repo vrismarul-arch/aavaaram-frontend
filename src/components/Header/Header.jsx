@@ -19,6 +19,7 @@ export default function Header() {
 
   const navigate = useNavigate();
   const dropdownRef = useRef();
+  const searchRef = useRef();
 
   const { cart, openCart } = useCart();
   const { wishlist } = useWishlist();
@@ -33,15 +34,26 @@ export default function Header() {
 
   const [textIndex, setTextIndex] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+
   const [showShop, setShowShop] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  /* 🔥 Fetch categories */
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filtered, setFiltered] = useState([]);
+
+  /* 🔥 Fetch categories + products */
   useEffect(() => {
     fetch(`${API}/api/categories`)
       .then(res => res.json())
       .then(setCategories)
+      .catch(err => console.error(err));
+
+    fetch(`${API}/api/products`)
+      .then(res => res.json())
+      .then(setProducts)
       .catch(err => console.error(err));
 
     const timer = setInterval(() => {
@@ -51,14 +63,30 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
 
-  /* 🔥 Close dropdown on outside click */
+  /* 🔥 Filter while typing */
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFiltered([]);
+      return;
+    }
+
+    const result = products.filter(p =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setFiltered(result.slice(0, 6));
+  }, [searchQuery, products]);
+
+  /* 🔥 Close dropdown outside click */
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowProfile(false);
+      }
+
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearch(false);
       }
     };
 
@@ -68,9 +96,18 @@ export default function Header() {
     };
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== "") {
+      navigate(`/search?q=${searchQuery}`);
+      setShowSearch(false);
+      setSearchQuery("");
+      setFiltered([]);
+    }
+  };
+
   return (
     <>
-      {/* TOP BAR */}
       <div className="top-bar">{texts[textIndex]}</div>
 
       <header className="main-header">
@@ -80,7 +117,7 @@ export default function Header() {
           <img src="/logo/logo.png" alt="logo" />
         </div>
 
-        {/* DESKTOP MENU */}
+        {/* MENU */}
         <nav className="menu desktop-menu">
           <span onClick={() => navigate("/")}>Home</span>
           <span onClick={() => navigate("/about")}>About Us</span>
@@ -106,25 +143,61 @@ export default function Header() {
             )}
           </div>
 
-          <span>B2B</span>
-          <span>Blog</span>
+          {/* <span>B2B</span>
+          <span>Blog</span> */}
           <span>Contact</span>
         </nav>
 
         {/* ICONS */}
         <div className="icons">
 
-          {/* SEARCH */}
-          <FiSearch
-            className="icon"
-            onClick={() => navigate("/search")}
-          />
+          {/* 🔍 SEARCH */}
+          <div className="search-wrapper" ref={searchRef}>
+            <FiSearch
+              className="icon"
+              onClick={() => setShowSearch(!showSearch)}
+            />
 
-          {/* ADMIN PROFILE */}
-          <div
-            className="profile-wrapper"
-            ref={dropdownRef}
-          >
+            {showSearch && (
+              <div className="search-box">
+                <form onSubmit={handleSearch}>
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                  />
+                </form>
+
+                {filtered.length > 0 && (
+                  <div className="search-results">
+                    {filtered.map(product => (
+                      <div
+                        key={product._id}
+                        className="search-item"
+                        onClick={() => {
+                          navigate(`/product/${product._id}`);
+                          setShowSearch(false);
+                          setSearchQuery("");
+                          setFiltered([]);
+                        }}
+                      >
+                        <img src={product.image} alt={product.name} />
+                        <div>
+                          <p>{product.name}</p>
+                          <span>Rs. {product.price}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* PROFILE */}
+          <div className="profile-wrapper" ref={dropdownRef}>
             <FiUser
               className="icon"
               onClick={() => {
@@ -138,20 +211,13 @@ export default function Header() {
 
             {adminToken && showProfile && (
               <div className="profile-dropdown">
-                <p
-                  onClick={() => {
-                    navigate("/admin/dashboard");
-                    setShowProfile(false);
-                  }}
-                >
+                <p onClick={() => navigate("/admin/dashboard")}>
                   Dashboard
                 </p>
-
                 <p
                   className="logout"
                   onClick={() => {
                     logout();
-                    setShowProfile(false);
                     navigate("/");
                   }}
                 >
@@ -167,9 +233,7 @@ export default function Header() {
             onClick={() => navigate("/wishlist")}
           >
             <FiHeart />
-            {wishlist.length > 0 && (
-              <span>{wishlist.length}</span>
-            )}
+            {wishlist.length > 0 && <span>{wishlist.length}</span>}
           </div>
 
           {/* CART */}
@@ -178,12 +242,9 @@ export default function Header() {
             onClick={openCart}
           >
             <FiShoppingCart />
-            {cart.length > 0 && (
-              <span>{cart.length}</span>
-            )}
+            {cart.length > 0 && <span>{cart.length}</span>}
           </div>
 
-          {/* MOBILE MENU */}
           <span
             className="menu-icon"
             onClick={() => setMobileMenu(!mobileMenu)}
@@ -192,16 +253,12 @@ export default function Header() {
           </span>
         </div>
       </header>
-
-      {/* MOBILE MENU */}
-      {mobileMenu && (
+       {mobileMenu && (
         <div className="mobile-menu">
-          <p onClick={() => navigate("/")}>Home</p>
-          <p onClick={() => navigate("/about")}>About Us</p>
-          <p onClick={() => navigate("/shop")}>Shop</p>
-          {/* <p>B2B</p>
-          <p>Blog</p>
-          <p>Contact</p> */}
+          <p onClick={() => { navigate("/"); setMobileMenu(false); }}>Home</p>
+          <p onClick={() => { navigate("/about"); setMobileMenu(false); }}>About Us</p>
+          <p onClick={() => { navigate("/shop"); setMobileMenu(false); }}>Shop</p>
+          <p onClick={() => { navigate("/contact"); setMobileMenu(false); }}>Contact</p>
         </div>
       )}
     </>

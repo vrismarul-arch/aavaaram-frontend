@@ -77,9 +77,9 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>License Number: 12422032000859</p>
-        <p>© 2025 Sattur Mittai Kadai. All rights reserved.</p>
-        <p>Designed & Developed by <b>Weone Digital</b></p>
+     
+        <p>© 2026 Aavaaram. All rights reserved.</p>
+        <p>Designed & Developed by <b>Vrism</b></p>
       </div>
     </footer>
   );

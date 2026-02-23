@@ -74,12 +74,35 @@
 }
 
 /* RESPONSIVE */
+/* ================= MOBILE FIX ================= */
+
 @media (max-width: 900px) {
+
   .journey-row {
     flex-direction: column;
+    gap: 40px;
+  }
+
+  .journey-item {
+    flex-direction: column;      /* 🔥 vertical */
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .journey-img {
+    width: 220px;                /* 🔥 equal size */
+    height: 220px;
+  }
+
+  .journey-item h4 {
+    margin-top: 0;
+    font-size: 16px;
   }
 
   .arrow {
     transform: rotate(90deg);
+    font-size: 26px;
+    margin-top: 10px;
   }
 }

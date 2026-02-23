@@ -1,13 +1,31 @@
 import "./Testimonials.css";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export default function Testimonials() {
   const sliderRef = useRef(null);
 
   const scroll = (dir) => {
-    const cardWidth = 360; // 3 cards calculation
+    const cardWidth = 392; // card + gap
     sliderRef.current.scrollLeft += dir === "left" ? -cardWidth : cardWidth;
   };
+
+  /* 🔥 AUTO SCROLL */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!sliderRef.current) return;
+
+      const slider = sliderRef.current;
+      const maxScroll = slider.scrollWidth - slider.clientWidth;
+
+      if (slider.scrollLeft >= maxScroll) {
+        slider.scrollLeft = 0; // 🔥 Reset to start
+      } else {
+        slider.scrollLeft += 392;
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const reviews = [
     {

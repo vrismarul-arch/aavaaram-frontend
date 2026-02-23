@@ -83,18 +83,30 @@
     display: block;
   }
 
-  .mobile-menu {
-    display: block;
-    background: #fff;
-    padding: 14px;
-    border-top: 1px solid #eee;
-  }
+  /* ================= MOBILE MENU FIX ================= */
 
-  .mobile-menu p {
-    padding: 12px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 15px;
-  }
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.mobile-menu p {
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mobile-menu p:last-child {
+  border-bottom: none;
+}
 }
 .icon-badge {
   position: relative;
@@ -135,4 +147,108 @@
 
 .profile-dropdown p:hover {
   background: #f5f5f5;
+}
+/* ================= SEARCH DROPDOWN IMPROVED ================= */
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 320px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  padding: 15px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.search-dropdown input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.search-dropdown input:focus {
+  border-color: #6b1d00;
+  box-shadow: 0 0 0 2px rgba(107,29,0,0.1);
+}
+
+/* RESULTS SCROLL */
+.search-results {
+  margin-top: 15px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+/* INDIVIDUAL PRODUCT */
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.search-item:hover {
+  background: #f7f7f7;
+  transform: translateX(3px);
+}
+
+.search-item img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.search-item p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-item span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* EMPTY MESSAGE */
+.no-result {
+  text-align: center;
+  padding: 15px;
+  font-size: 13px;
+  color: #999;
+}
+
+/* SMALL SCROLLBAR */
+.search-results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
