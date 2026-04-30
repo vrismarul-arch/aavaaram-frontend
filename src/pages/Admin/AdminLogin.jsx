@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../services/api";
 import { useAdmin } from "../../context/AdminContext";
-import "./Admin.css";
+import "./Adminlogin.css";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -33,10 +33,8 @@ export default function AdminLogin() {
 
       const res = await API.post("/admin/login", form);
 
-      // ✅ Save token in context + localStorage
       login(res.data.token);
 
-      // ✅ Redirect to dashboard
       navigate("/admin/dashboard");
 
     } catch (err) {
@@ -47,29 +45,40 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="admin-login">
-      <div className="login-box">
-        <h2>Admin Login</h2>
-
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-        />
-
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-        />
-
-        <button onClick={handleLogin} disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
+    <div className="admin-container">
+      
+      {/* LEFT SIDE */}
+      <div className="left-panel">
+        <h1>Welcome Admin</h1>
+        <p>Manage your system efficiently and securely.</p>
       </div>
+
+      {/* RIGHT SIDE */}
+      <div className="right-panel">
+        <div className="login-box">
+          <h2>Admin Login</h2>
+
+          <input
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
+
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+          />
+
+          <button onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </div>
+      </div>
+
     </div>
   );
 }

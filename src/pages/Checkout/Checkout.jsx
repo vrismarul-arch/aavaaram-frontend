@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 import "./Checkout.css";
 
 export default function Checkout() {
@@ -9,28 +10,30 @@ export default function Checkout() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
-  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
+  const [loading, setLoading] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
 
   const [form, setForm] = useState({
     email: "",
     firstName: "",
     lastName: "",
     address: "",
+    apartment: "",
     city: "",
     state: "Tamil Nadu",
     pincode: "",
     phone: ""
   });
 
-  // ✅ LOGIN PROTECTION
+  // LOGIN PROTECTION
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token || !user) {
+      message.warning("Please login to continue");
       navigate("/login");
     } else {
-      // 🔥 Auto-fill email from login user
       setForm(prev => ({
         ...prev,
         email: user.email
@@ -38,14 +41,39 @@ export default function Checkout() {
     }
   }, [navigate]);
 
+  // Process cart items
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      const processedItems = cart.map(item => ({
+        _id: item.product?._id || item._id,
+        name: item.product?.name || item.name,
+        price: item.product?.price || item.price,
+        qty: item.qty,
+        image: item.product?.image || item.image
+      }));
+      setCartItems(processedItems);
+    }
+  }, [cart]);
+
   const validate = () => {
     let newErrors = {};
 
-    if (!form.lastName) newErrors.lastName = "Enter a last name";
-    if (!form.address) newErrors.address = "Enter an address";
-    if (!form.city) newErrors.city = "Enter a city";
-    if (!form.pincode) newErrors.pincode = "Enter a ZIP / postal code";
-    if (!form.phone) newErrors.phone = "Enter a phone number";
+    if (!form.firstName.trim()) newErrors.firstName = "Enter a first name";
+    if (!form.lastName.trim()) newErrors.lastName = "Enter a last name";
+    if (!form.address.trim()) newErrors.address = "Enter an address";
+    if (!form.city.trim()) newErrors.city = "Enter a city";
+    if (!form.pincode.trim()) newErrors.pincode = "Enter a ZIP / postal code";
+    if (!form.phone.trim()) newErrors.phone = "Enter a phone number";
+    
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (form.phone && !phoneRegex.test(form.phone)) {
+      newErrors.phone = "Enter a valid 10-digit phone number";
+    }
+    
+    const pincodeRegex = /^\d{6}$/;
+    if (form.pincode && !pincodeRegex.test(form.pincode)) {
+      newErrors.pincode = "Enter a valid 6-digit PIN code";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -53,15 +81,26 @@ export default function Checkout() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
   };
 
-  const handlePlaceOrder = async () => {
+  const handleProceedToPayment = async () => {
     if (!validate()) return;
+    
+    if (cartItems.length === 0) {
+      message.warning("Your cart is empty!");
+      return;
+    }
+
+    setLoading(true);
 
     const loggedUser = JSON.parse(localStorage.getItem("user"));
 
+    // Create order data to pass to payment page
     const orderData = {
-      items: cart.map(item => ({
+      items: cartItems.map(item => ({
         productId: item._id,
         name: item.name,
         price: item.price,
@@ -69,145 +108,164 @@ export default function Checkout() {
         image: item.image
       })),
       totalAmount: total,
-      paymentMethod,
       customer: {
-        ...form,
-        email: loggedUser.email   // 🔥 FORCE LOGIN EMAIL
-      }
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: loggedUser.email,
+        phone: form.phone,
+        address: form.address,
+        apartment: form.apartment,
+        city: form.city,
+        state: form.state,
+        pincode: form.pincode
+      },
+      orderDate: new Date().toISOString()
     };
 
-    try {
-      if (paymentMethod === "COD") {
-        await API.post("/payment/cod", orderData);
-        clearCart();
-        navigate("/success");
-        return;
+    // Store order data in localStorage for payment page
+    localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+    
+    // Navigate to payment page
+    navigate("/payment", { 
+      state: { 
+        orderData: orderData,
+        totalAmount: total
       }
-
-      if (paymentMethod === "ONLINE") {
-        const res = await API.post("/payment/razorpay", {
-          amount: total
-        });
-
-        const options = {
-          key: "YOUR_RAZORPAY_KEY",
-          amount: res.data.amount,
-          currency: "INR",
-          order_id: res.data.id,
-          handler: async function () {
-            await API.post("/payment/verify", { orderData });
-            clearCart();
-            navigate("/success");
-          },
-          theme: { color: "#6b1d00" }
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Order failed");
-    }
+    });
+    
+    setLoading(false);
   };
+
+  // Show empty cart state
+  if (!cart || cart.length === 0) {
+    return (
+      <div className="checkout-empty">
+        <h2>Your cart is empty</h2>
+        <button onClick={() => navigate("/")} className="continue-shopping-btn">
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-wrapper">
       <div className="checkout-left">
-
         <h2>Contact</h2>
         <div className="row">
           <input
             name="email"
             value={form.email}
-            readOnly   // 🔥 USER CANNOT CHANGE EMAIL
+            readOnly
+            className="readonly-input"
           />
         </div>
 
         <h2>Delivery</h2>
-
         <div className="row">
-          <input
-            name="firstName"
-            placeholder="First name (optional)"
-            onChange={handleChange}
-          />
+          <div className="name-row">
+            <div className="input-group">
+              <input
+                name="firstName"
+                placeholder="First name *"
+                onChange={handleChange}
+                value={form.firstName}
+                className={errors.firstName ? "error-input" : ""}
+              />
+              {errors.firstName && <p className="error-text">{errors.firstName}</p>}
+            </div>
 
-          <input
-            name="lastName"
-            placeholder="Last name"
-            onChange={handleChange}
-            className={errors.lastName && "error-input"}
-          />
-          {errors.lastName && <p className="error-text">{errors.lastName}</p>}
+            <div className="input-group">
+              <input
+                name="lastName"
+                placeholder="Last name *"
+                onChange={handleChange}
+                value={form.lastName}
+                className={errors.lastName ? "error-input" : ""}
+              />
+              {errors.lastName && <p className="error-text">{errors.lastName}</p>}
+            </div>
+          </div>
 
           <input
             name="address"
-            placeholder="Address"
+            placeholder="Address (House No, Building, Street) *"
             onChange={handleChange}
-            className={errors.address && "error-input"}
+            value={form.address}
+            className={errors.address ? "error-input" : ""}
           />
           {errors.address && <p className="error-text">{errors.address}</p>}
 
           <input
-            name="city"
-            placeholder="City"
+            name="apartment"
+            placeholder="Apartment, Suite, etc. (Optional)"
             onChange={handleChange}
-            className={errors.city && "error-input"}
+            value={form.apartment}
           />
-          {errors.city && <p className="error-text">{errors.city}</p>}
 
-          <input
-            name="pincode"
-            placeholder="PIN code"
-            onChange={handleChange}
-            className={errors.pincode && "error-input"}
-          />
-          {errors.pincode && <p className="error-text">{errors.pincode}</p>}
+          <div className="city-row">
+            <div className="input-group">
+              <input
+                name="city"
+                placeholder="City *"
+                onChange={handleChange}
+                value={form.city}
+                className={errors.city ? "error-input" : ""}
+              />
+              {errors.city && <p className="error-text">{errors.city}</p>}
+            </div>
 
-          <input
-            name="phone"
-            placeholder="Phone"
-            onChange={handleChange}
-            className={errors.phone && "error-input"}
-          />
-          {errors.phone && <p className="error-text">{errors.phone}</p>}
-        </div>
-
-        <h2>Payment</h2>
-
-        <div className="payment-container">
-          <div className="payment-option">
-            <span>Razorpay Secure (UPI, Cards)</span>
-            <input
-              type="radio"
-              checked={paymentMethod === "ONLINE"}
-              onChange={() => setPaymentMethod("ONLINE")}
-            />
+            <div className="input-group">
+              <input
+                name="state"
+                placeholder="State"
+                value={form.state}
+                readOnly
+                className="readonly-input"
+              />
+            </div>
           </div>
 
-          <div className="payment-option">
-            <span>Cash on Delivery</span>
-            <input
-              type="radio"
-              checked={paymentMethod === "COD"}
-              onChange={() => setPaymentMethod("COD")}
-            />
+          <div className="pin-phone-row">
+            <div className="input-group">
+              <input
+                name="pincode"
+                placeholder="PIN code *"
+                onChange={handleChange}
+                value={form.pincode}
+                className={errors.pincode ? "error-input" : ""}
+              />
+              {errors.pincode && <p className="error-text">{errors.pincode}</p>}
+            </div>
+
+            <div className="input-group">
+              <input
+                name="phone"
+                placeholder="Phone Number *"
+                onChange={handleChange}
+                value={form.phone}
+                className={errors.phone ? "error-input" : ""}
+              />
+              {errors.phone && <p className="error-text">{errors.phone}</p>}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="checkout-right">
-        {cart.map(item => (
-          <div key={item._id} className="summary-item">
-            <img src={item.image} alt="" />
-            <div>
-              <p>{item.name}</p>
-              <small>Qty: {item.qty}</small>
+        <h3>Order Summary ({cartItems.length} items)</h3>
+        <div className="summary-items">
+          {cartItems.map(item => (
+            <div key={item._id} className="summary-item">
+              <img src={item.image} alt={item.name} />
+              <div className="summary-details">
+                <p className="item-name">{item.name}</p>
+                <small className="item-qty">Qty: {item.qty}</small>
+              </div>
+              <span className="item-price">₹{item.price * item.qty}</span>
             </div>
-            <span>₹{item.price * item.qty}</span>
-          </div>
-        ))}
+          ))}
+        </div>
 
         <hr />
 
@@ -216,8 +274,12 @@ export default function Checkout() {
           <h3>₹{total}</h3>
         </div>
 
-        <button className="pay-btn" onClick={handlePlaceOrder}>
-          Pay Now
+        <button 
+          className="pay-btn" 
+          onClick={handleProceedToPayment}
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Proceed to Payment"}
         </button>
       </div>
     </div>

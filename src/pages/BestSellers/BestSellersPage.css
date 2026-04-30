@@ -7,7 +7,7 @@
 .best-page h1 {
   font-size: 36px;
   margin-bottom: 40px;
-  color: #7a2e00;
+  color: #344b3f;
 }
 
 .best-grid {
@@ -35,7 +35,7 @@
 }
 
 .price {
-  color: #7a2e00;
+  color: #344b3f;
   font-weight: 600;
 }
 
@@ -44,7 +44,7 @@
   margin-top: 12px;
   padding: 12px;
   border: none;
-  background: #6b1d00;
+  background: #17422f;
   color: #fff;
   border-radius: 8px;
   cursor: pointer;

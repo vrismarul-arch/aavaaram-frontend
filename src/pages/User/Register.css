@@ -1,101 +1,176 @@
-/* BACKGROUND */
-
-.register-container {
+.register-wrapper {
   min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    #fdf7f2,
-    #f2e6da,
-    #f8efe8
-  );
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #37664f 0%, #37664f 100%);
   padding: 20px;
 }
 
-/* CARD */
-
 .register-card {
-  width: 100%;
-  max-width: 460px;
   background: white;
-  padding: 45px;
-  border-radius: 30px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-  transition: 0.3s ease;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.register-card:hover {
-  transform: translateY(-6px);
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* TITLE */
+.logo {
+  text-align: center;
+  font-size: 32px;
+  color: #37664f;
+  margin-bottom: 10px;
+}
 
 .register-card h2 {
   text-align: center;
-  font-size: 28px;
-  color: #7a2e00;
+  color: #333;
   margin-bottom: 10px;
+  font-size: 28px;
 }
 
 .subtitle {
   text-align: center;
-  font-size: 14px;
-  color: #777;
+  color: #666;
   margin-bottom: 30px;
+  font-size: 14px;
 }
 
-/* ANT INPUT CUSTOM */
-
-.ant-input,
-.ant-input-password {
-  border-radius: 25px !important;
-  height: 45px;
+.password-strength {
+  margin-top: -15px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
 }
 
-.ant-input:focus,
-.ant-input-password:focus {
-  border-color: #a4b72f !important;
-  box-shadow: 0 0 0 2px rgba(164,183,47,0.2) !important;
+.password-strength.weak {
+  color: #ff4d4f;
+  background: #fff2f0;
 }
 
-/* BUTTON */
+.password-strength.medium {
+  color: #faad14;
+  background: #fffbe6;
+}
+
+.password-strength.strong {
+  color: #52c41a;
+  background: #f6ffed;
+}
 
 .register-btn {
-  height: 48px;
-  border-radius: 30px !important;
-  background: #7a2e00 !important;
-  border: none !important;
+  background: linear-gradient(135deg, #37664f 0%, #37664f 100%);
+  border: none;
+  height: 45px;
+  font-size: 16px;
   font-weight: 600;
-  font-size: 15px;
-  transition: 0.3s ease;
 }
 
 .register-btn:hover {
-  background: #5c2200 !important;
+  background: linear-gradient(135deg, #37664f 0%, #37664f 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-/* LOGIN LINK */
+.login-redirect-btn {
+  border-color: #37664f;
+  color: #37664f;
+  height: 45px;
+  font-size: 16px;
+}
 
-.login-link {
+.login-redirect-btn:hover {
+  background: #37664f;
+  color: white;
+  border-color: #37664f;
+}
+
+.divider {
   text-align: center;
-  margin-top: 25px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 80px);
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 15px;
+  color: #999;
   font-size: 14px;
 }
 
-.login-link span {
-  color: #7a2e00;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 5px;
+.note {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
 }
 
-/* MOBILE */
+/* Ant Design Overrides */
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #333;
+}
 
-@media (max-width: 480px) {
+.ant-input-affix-wrapper {
+  border-radius: 10px;
+}
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus {
+  border-color: #37664f;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #37664f;
+  border-color: #37664f;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .register-card {
-    padding: 30px;
-    border-radius: 20px;
+    padding: 30px 20px;
+  }
+  
+  .logo {
+    font-size: 28px;
+  }
+  
+  .register-card h2 {
+    font-size: 24px;
   }
 }

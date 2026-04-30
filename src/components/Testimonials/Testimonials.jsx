@@ -1,35 +1,38 @@
 import "./Testimonials.css";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export default function Testimonials() {
   const sliderRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const cardWidth = 392;
 
   const scroll = (dir) => {
-    const cardWidth = 392; // card + gap
+    if (!sliderRef.current) return;
     sliderRef.current.scrollLeft += dir === "left" ? -cardWidth : cardWidth;
   };
 
-  /* 🔥 AUTO SCROLL */
+  /* 🔥 AUTO SCROLL WITH PAUSE ON HOVER */
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!sliderRef.current) return;
+      if (!sliderRef.current || isHovered) return;
 
       const slider = sliderRef.current;
       const maxScroll = slider.scrollWidth - slider.clientWidth;
 
-      if (slider.scrollLeft >= maxScroll) {
-        slider.scrollLeft = 0; // 🔥 Reset to start
+      if (slider.scrollLeft >= maxScroll - 5) {
+        slider.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        slider.scrollLeft += 392;
+        slider.scrollBy({ left: cardWidth, behavior: "smooth" });
       }
-    }, 3000);
+    }, 3500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isHovered]);
 
   const reviews = [
     {
-      text: "Excellent quality supplements. I’ve noticed real improvement in digestion and energy levels. Highly recommended.!",
+      text: "Excellent quality supplements. I’ve noticed real improvement in digestion and energy levels. Highly recommended!",
       name: "Jayaraman Arumugadoss",
     },
     {
@@ -48,13 +51,18 @@ export default function Testimonials() {
 
   return (
     <section className="testimonials">
-      <h2>Our Customer Love Us</h2>
+      <h2>Real Results... Real Reviews</h2>
       <p>Real experiences. Genuine results. Trusted wellness.</p>
 
       <div className="slider-wrapper">
         <button className="nav left" onClick={() => scroll("left")}>‹</button>
 
-        <div className="slider" ref={sliderRef}>
+        <div
+          className="slider"
+          ref={sliderRef}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {reviews.map((r, i) => (
             <div className="testimonial-card" key={i}>
               <div className="quote">“</div>

@@ -1,0 +1,30 @@
+.success-page-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 16px;
+}
+
+.success-card {
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+.success-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.success-total {
+  text-align: right;
+  margin-top: 12px;
+  color: #16a34a;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}

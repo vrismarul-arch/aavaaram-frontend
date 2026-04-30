@@ -126,7 +126,8 @@
 }
 
 .rating {
-  color: #ff7a3d;
+  color: #5b2b00;
+  font-weight: 800;
   font-size: 14px;
 }
 
@@ -144,7 +145,7 @@
 .royal-card button {
   width: 100%;
   padding: 12px;
-  background: #6b1d00;
+  background: #17422f;
   color: #fff;
   border: none;
   cursor: pointer;

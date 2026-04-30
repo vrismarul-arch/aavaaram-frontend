@@ -1,0 +1,116 @@
+.nutrition-section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:80px 8%;
+  background:#f7f7f7;
+  gap:60px;
+}
+
+.nutrition-left{
+  flex:1;
+}
+
+.nutrition-title{
+  font-size:42px;
+  font-weight:700;
+  margin-bottom:20px;
+  color:#111;
+}
+
+.nutrition-desc{
+  font-size:16px;
+  line-height:1.6;
+  color:#555;
+  margin-bottom:40px;
+  max-width:500px;
+}
+
+.nutrition-table{
+  width:100%;
+  max-width:520px;
+}
+
+.nutrition-row{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #ddd;
+  font-size:15px;
+  color:#333;
+}
+
+.nutrition-row span:last-child{
+  font-weight:600;
+}
+
+.nutrition-right{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:60px;
+}
+
+.nutrition-right img{
+  width:520px;
+  max-width:100%;
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 1024px){
+
+  .nutrition-section{
+    padding:60px 6%;
+    gap:40px;
+  }
+
+  .nutrition-title{
+    font-size:36px;
+  }
+
+}
+
+@media (max-width: 768px){
+
+  .nutrition-section{
+    flex-direction:column;
+    text-align:left;
+  }
+
+  .nutrition-right{
+    order:-1;
+    width:100%;
+    padding:40px;
+  }
+
+  .nutrition-right img{
+    width:220px;
+  }
+
+  .nutrition-title{
+    font-size:30px;
+  }
+
+  .nutrition-desc{
+    font-size:15px;
+  }
+
+}
+
+@media (max-width: 480px){
+
+  .nutrition-title{
+    font-size:26px;
+  }
+
+  .nutrition-row{
+    font-size:14px;
+  }
+
+  .nutrition-right{
+    padding:30px;
+  }
+
+}

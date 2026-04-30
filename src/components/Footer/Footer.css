@@ -1,140 +1,310 @@
 /* src/components/Footer/Footer.css */
-
 .site-footer {
-  background: linear-gradient(180deg, #f3d4a6, #e6b97f);
-  padding: 70px 80px 30px;
+  background: linear-gradient(180deg, #17422f, #17422f);
+  padding: 90px 80px 30px;
   font-size: 14px;
-  color: #3b2a1a;
+  color: #ffffff;
 }
 
-/* TOP GRID */
+/* ================= GRID ================= */
+
 .footer-top {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
-  gap: 50px;
-  align-items: flex-start;
+  gap: 60px;
 }
+
+/* ================= HEADINGS ================= */
 
 .footer-col h4 {
-  font-size: 16px;
+  font-size: 17px;
+  color: #fff;
   font-weight: 600;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.footer-col ul {
+.footer-col h4::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+}
+
+/* ================= BRAND ================= */
+
+.footer-logo {
+  width: 150px;
+  margin-bottom: 18px;
+}
+
+.footer-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+
+/* ================= LINKS ================= */
+
+.footer-links {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.footer-col li {
-  margin-bottom: 8px;
+.footer-links li {
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: color 0.2s ease;
+  position: relative;
+  transition: all 0.3s ease;
+  width: fit-content;
 }
 
-.footer-col li:hover {
-  color: #6b1d00;
+.footer-links li::after {
+  content: "";
+  width: 0%;
+  height: 1px;
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  transition: width 0.3s ease;
 }
 
+.footer-links li:hover::after {
+  width: 100%;
+}
+
+.footer-links li:hover {
+  color: #c8e6d9;
+  padding-left: 5px;
+}
+
+/* ================= CONTACT & FACTORY ================= */
+
+/* Icon alignment - consistent spacing */
 .footer-col p {
+  line-height: 1.7;
+  margin-bottom: 12px;
+  color: #e0e0e0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* For address text that needs proper wrapping */
+.footer-col p .icon {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Contact line with icon and text alignment */
+.contact-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.contact-line .icon {
+  flex-shrink: 0;
+}
+
+/* Address text with proper indentation and alignment */
+.address-text {
+  display: block;
   line-height: 1.6;
 }
 
-.footer-col .phone {
-  margin-top: 10px;
-  font-weight: 600;
+/* Factory section specific - ensures icon aligns with first line of address */
+.factory-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-/* BOTTOM */
+.factory-address .icon {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.factory-address .address-text {
+  display: block;
+}
+
+/* Contact Us section - company name */
+.white {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Icon base styling */
+.icon {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* ================= SOCIAL ================= */
+
+.social-icons {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.social-icons span {
+  font-size: 18px;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #17422f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icons span:hover {
+  background: #c8e6d9;
+  color: #17422f;
+  transform: translateY(-4px);
+}
+
+/* ===== FLOATING BUTTONS WRAPPER ===== */
+.floating-buttons {
+  position: fixed;
+  bottom: 85px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 999;
+}
+
+/* ===== COMMON BUTTON STYLE ===== */
+.float-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* ===== WHATSAPP ===== */
+.float-btn.whatsapp {
+  background: #25D366;
+}
+
+.float-btn.whatsapp img {
+  width: 32px;
+}
+
+/* ===== CALL ===== */
+.float-btn.call {
+  background: #426553;
+  color: #fff;
+  font-size: 24px;
+}
+
+/* ===== HOVER ===== */
+.float-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== BOUNCE ANIMATION ===== */
+.float-btn.whatsapp {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ================= BOTTOM ================= */
+
 .footer-bottom {
-  margin-top: 50px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,0.15);
+  margin-top: 70px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
   font-size: 13px;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .footer-bottom p {
   margin: 6px 0;
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 1024px) {
   .site-footer {
-    padding: 60px 40px 30px;
+    padding: 70px 40px 30px;
   }
 
-  .footer-top {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
   .footer-top {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 40px;
   }
 }
 
-@media (max-width: 480px) {
-  .site-footer {
-    padding: 40px 20px 20px;
-  }
-
+@media (max-width: 600px) {
   .footer-top {
     grid-template-columns: 1fr;
   }
 
-  .footer-bottom {
-    font-size: 12px;
+  .site-footer {
+    padding: 50px 20px 20px;
   }
-}
-/* ========================= */
-/* BRAND COLUMN (LOGO AREA) */
-/* ========================= */
-
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-logo {
-  width: 140px;
-  margin-bottom: 15px;
-}
-
-.footer-desc {
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 18px;
-  color: #4a2f1a;
-}
-
-/* ========================= */
-/* SOCIAL ICONS */
-/* ========================= */
-
-.social-icons {
-  display: flex;
-  gap: 14px;
-}
-
-.social-icons svg {
-  width: 14px;
-  height: 14px;
-  padding: 8px;
-  background: #ffffff;
-  border-radius: 50%;
-  cursor: pointer;
+  
+  .footer-col p {
+    flex-wrap: wrap;
+  }
+  
+  .factory-address {
+    flex-wrap: wrap;
+  }
+  
+  .contact-line {
+    flex-wrap: wrap;
+  }
+}.footer-links li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 14px;
   transition: all 0.3s ease;
-  color: #6b1d00;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: inline-block;
 }
 
-.social-icons svg:hover {
-  background: #6b1d00;
-  color: #fff;
-  transform: translateY(-3px);
+/* Hover effect */
+.footer-links li a:hover {
+  color: #ffffff;
+  transform: translateX(5px);
+}
+
+/* Active link (optional) */
+.footer-links li a.active {
+  color: #16a34a;
+  font-weight: 600;
 }

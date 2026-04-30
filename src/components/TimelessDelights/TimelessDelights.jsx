@@ -1,83 +1,84 @@
+// TimelessDelights.jsx
 import "./TimelessDelights.css";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
-import timelessImg from "../../assets/timeless.jpg";
-import badgeImg from "../../assets/badge.jpg";
+// Import your image - replace with your actual image path
+import hughImage from "./2.png"; // Make sure this path is correct
 
 export default function TimelessDelights() {
-  const navigate = useNavigate();
-  const [playVideo, setPlayVideo] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <>
-      <section className="timeless">
-        <div className="timeless-inner">
+    <section className="hugh-section" ref={sectionRef}>
+      <div className="hugh-container">
+        {/* LEFT CONTENT - TEXT */}
+        <div className={`hugh-left ${isVisible ? 'animate' : ''}`}>
+  
+  <h1 className="hugh-title">
+    The Natural Power of <br />
+    <span className="hugh-title-highlight">Aavaaram Superfoods</span>
+  </h1>
 
-          {/* LEFT CONTENT */}
-          <div className="timeless-left">
-            <h2>
-              Timeless Wellness,<br />
-              Trusted for Generations
-            </h2>
+  <p className="hugh-subtitle">
+    Nourish your body with powerful herbs and natural ingredients. 
+    <span className="hugh-subtitle-accent">
+      Farm-fresh superfoods crafted to support your daily wellness.
+    </span>
+  </p>
 
-            <p>
-              Inspired by India’s rich herbal heritage, Aavaaram blends tradition with innovation.
-              Our mission is simple — deliver pure, effective and responsibly crafted wellness
-              solutions for today’s generation.
-            </p>
+  <div className="hugh-cta">
+  
 
-            <button onClick={() => navigate("/about")}>
-              Our Story
-            </button>
-          </div>
+    <button className="hugh-btn-secondary">
+      Explore Our Superfoods
+    </button>
+  </div>
 
-          {/* RIGHT CONTENT */}
-          <div className="timeless-right">
-            <div className="video-box">
-              <img
-                src={timelessImg}
-                alt="Timeless Delight"
-              />
+  <div className="hugh-disclaimer">
+    *Aavaaram products are made with natural ingredients sourced from our farms 
+    and carefully processed to preserve their nutritional value. These products 
+    are intended to support a healthy lifestyle and are not meant to replace 
+    medical advice or treatment.
+  </div>
 
-              <div
-                className="play-btn"
-                onClick={() => setPlayVideo(true)}
-              >
-                ▶
-              </div>
-            </div>
+</div>
 
-            <div className="badge-box">
-              <img
-                src={badgeImg}
-                alt="Since 1914"
-              />
-            </div>
-          </div>
 
-        </div>
-      </section>
-
-      {/* VIDEO MODAL */}
-      {playVideo && (
-        <div className="video-modal">
-          <div className="video-container">
-            <span
-              className="close-video"
-              onClick={() => setPlayVideo(false)}
-            >
-              ✕
-            </span>
-
-            <video
-              src="/videos/your-video.mp4"
-              controls
-              autoPlay
+        {/* RIGHT CONTENT - FULL SIZE IMAGE */}
+        <div className={`hugh-right ${isVisible ? 'animate' : ''}`}>
+          <div className="image-wrapper">
+            <img 
+              src={hughImage} 
+              alt="Hugh Jackman with AG1 daily health drink" 
+              className="hugh-image"
             />
+            
+            {/* Optional overlay badge */}
+           
+
+            {/* Optional gradient overlay for better text readability if needed */}
+            <div className="image-gradient"></div>
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </section>
   );
 }

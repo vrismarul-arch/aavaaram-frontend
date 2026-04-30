@@ -1,86 +1,86 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaStar } from "react-icons/fa";
 import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
+
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const liked = isInWishlist(product._id);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
       return;
     }
+
     addToCart(product);
   };
 
   return (
-    <div className="premium-card">
 
-      {/* IMAGE */}
-      <div
-        className="premium-img"
-        onClick={() => navigate(`/product/${product._id}`)}
-      >
-        <img src={product.image} alt={product.name} />
+    <div
+      className="glass-card"
+      onClick={() => navigate(`/product/${product._id}`)}
+    >
 
-        <FaHeart
-          className="wishlist-icon"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleWishlist(product);
-          }}
-          color={liked ? "red" : "#999"}
-        />
-      </div>
+      {/* PRODUCT IMAGE */}
+      <img
+        src={product.image}
+        alt={product.name}
+        className="product-img"
+      />
 
-      {/* PACK OPTIONS */}
-      {/* <div className="pack-row">
-        <span>Pack:</span>
-        <div className="pack-options">
-          <span className="active">1</span>
-          <span>2</span>
-          <span>3</span>
-          <span>4</span>
+      {/* WISHLIST */}
+      {/* <FaHeart
+        className={`wishlist-icon ${liked ? "active" : ""}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleWishlist(product);
+        }}
+      /> */}
+
+      {/* PRODUCT INFO */}
+      <div className="glass-info">
+
+        {/* RATING */}
+        <div className="rating-row">
+          <FaStar className="star" />
+          <span>{product.averageRating?.toFixed(1) || "4.8"}</span>
+          {/* <small>({product.reviews?.length || 0})</small> */}
         </div>
-      </div> */}
 
-      {/* RATING */}
-      <div className="rating-box">
-        ⭐ {product.averageRating?.toFixed(1) || "4.8"}/5
-        {" "}
-        ({product.reviews?.length || 360})
+        {/* TITLE */}
+        <h3 className="product-title">
+          {product.name}
+        </h3>
+
+        {/* PRICE */}
+        <div className="price-row">
+          <span className="new-price">₹{product.price}</span>
+          <span className="old-price">₹{product.price + 100}</span>
+                    <span className="save-badge">5% OFF</span>
+
+        </div>
+
+        {/* BUTTON */}
+        <button
+          className="cart-btn"
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </button>
+
       </div>
-
-      {/* TITLE */}
-      <h3 onClick={() => navigate(`/product/${product._id}`)}>
-        {product.name}
-      </h3>
-
-      {/* TAGS (static for now) */}
-      <div className="tag-row">
-        <span>Skin Radiance</span>
-        <span>Pigmentation</span>
-      </div>
-
-      {/* PRICE */}
-      <div className="price-row">
-        <span className="new-price">₹{product.price}</span>
-        <span className="old-price">₹{product.price + 100}</span>
-        <span className="save">Save 5%</span>
-      </div>
-
-      {/* BUTTON */}
-      <button className="cart-btn" onClick={handleAddToCart}>
-        Add to Cart
-      </button>
 
     </div>
+
   );
 }

@@ -1,108 +1,143 @@
-.sweet-legacy {
-  padding: 90px 60px;
-  background: #f7f6f2;
-}
-
-/* HEADER */
-.sweet-header {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto 60px;
-}
-
-.legacy-sub {
-  display: block;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: #777;
-  margin-bottom: 8px;
-}
-
-.sweet-header h2 {
-  font-size: 36px;
-  color: #2b2b2b;
-  margin-bottom: 14px;
-}
-
-.sweet-header p {
-  font-size: 15px;
-  color: #555;
-  line-height: 1.7;
-}
-
-/* JOURNEY ROW */
-.journey-row {
+.support-section {
   display: flex;
-  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 40px;
+  gap: 40px;
   align-items: center;
-  gap: 26px;
-  
+  background-color: #e2e2e1 ;
 }
 
-/* ITEM */
-.journey-item {
-  display: flex;
-  align-items: center;
-  gap: 18px;
+/* LEFT CONTENT STYLES */
+.support-left {
+  flex: 1;
+  max-width: 600px;
 }
 
-.journey-img {
-  width: 180px;
-  height: 180px;
+.support-title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+
+.support-desc {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin-bottom: 30px;
+}
+
+.support-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.support-list li {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+}
+
+.support-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.support-btn {
+  background-color: #0f2e2f;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Adds space between text and icon */
+}
+
+.support-btn:hover {
+  background-color: #1a4a4c; /* Slightly lighter shade of your original color */
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.support-btn:active {
+  transform: translateY(0); /* Pressed effect */
+}
+/* RIGHT FULL-SIZE IMAGE STYLES */
+.support-right-full {
+  flex: 1;
+  height: 700px; /* Adjust height as needed */
   overflow: hidden;
-  border-radius: 8px;
 }
 
-.journey-img img {
+.full-image {
   width: 100%;
+  padding-right: 30px;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* This ensures the image covers the entire container */
+  display: block;
 }
 
-/* TITLE */
-.journey-item h4 {
-  font-size: 14px;
-  text-align: center;
-  color: #2b2b2b;
-  margin-top: 10px;
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .support-section {
+    padding: 40px 20px;
+    gap: 30px;
+  }
+
+  .support-title {
+    font-size: 36px;
+  }
+
+  .support-right-full {
+    height: 600px;
+  }
 }
 
-/* ARROW */
-.arrow {
-  font-size: 22px;
-  color: #999;
-}
-
-/* RESPONSIVE */
-/* ================= MOBILE FIX ================= */
-
-@media (max-width: 900px) {
-
-  .journey-row {
+@media (max-width: 768px) {
+  .support-section {
     flex-direction: column;
-    gap: 40px;
+    padding: 40px 20px;
   }
 
-  .journey-item {
-    flex-direction: column;      /* 🔥 vertical */
-    align-items: center;
-    text-align: center;
-    gap: 15px;
+  .support-left {
+    max-width: 100%;
   }
 
-  .journey-img {
-    width: 220px;                /* 🔥 equal size */
-    height: 220px;
+  .support-right-full {
+    width: 100%;
+    height: 500px;
   }
 
-  .journey-item h4 {
-    margin-top: 0;
-    font-size: 16px;
+  .support-title {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .support-right-full {
+    height: 350px;
   }
 
-  .arrow {
-    transform: rotate(90deg);
-    font-size: 26px;
-    margin-top: 10px;
+  .support-title {
+    font-size: 28px;
+  }
+
+  .support-btn {
+    padding: 15px 20px;
   }
 }

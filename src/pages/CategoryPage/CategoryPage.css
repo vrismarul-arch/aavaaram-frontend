@@ -1,133 +1,260 @@
-/* ================= PAGE ================= */
-.category-page {
-  padding: 50px 60px;
+/* ══════════════════════════════════════
+   CategoryPage — scoped with cp- prefix
+══════════════════════════════════════ */
+
+/* ─── Page Shell ─────────────────────────────────── */
+.cp-page {
+  padding: 28px 24px;
   background: #f6f6f6;
   min-height: 100vh;
 }
 
-.category-title {
-  font-size: 30px;
+.cp-page-title {
+  font-size: 26px;
   font-weight: 600;
-  margin-bottom: 35px;
-  text-align: left;
+  margin-bottom: 24px;
+  color: #111;
 }
 
-/* ================= GRID ================= */
-.product-grid {
+.cp-section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 14px;
+}
+
+.cp-loading,
+.cp-empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+  font-size: 16px;
+}
+
+/* ─── Combo Hero ─────────────────────────────────── */
+.combo-hero {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 36px;
+  min-height: 340px;
+  transition: box-shadow 0.25s ease;
+}
+
+.combo-hero:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.combo-left {
+  flex: 0 0 50%;
+  width: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.combo-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.combo-left:hover .combo-hero-img {
+  transform: scale(1.03);
+}
+
+.combo-right {
+  flex: 0 0 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 36px 40px;
+  box-sizing: border-box;
+}
+
+.combo-badge {
+  display: inline-block;
+  background: #eaf3e8;
+  color: #276749;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  letter-spacing: 0.04em;
+  border: 1px solid #c3e0c0;
+}
+
+.combo-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.35;
+  margin: 0;
+  cursor: pointer;
+}
+
+.combo-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.combo-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.combo-cart-btn {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 4px;
+}
+
+.combo-cart-btn:hover {
+  background: #333;
+}
+
+/* ─── Normal Product Grid ────────────────────────── */
+.cp-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  gap: 20px;
 }
 
-/* ================= CARD ================= */
-.product-card {
-  position: relative;
+/* ─── Card — full (no combo in category) ─────────── */
+.cp-card {
   background: #fff;
-  border-radius: 18px;
-  padding: 18px;
-  border: 1px solid #eee;
-  transition: 0.3s ease;
-}
-
-.product-card:hover {
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
-  transform: translateY(-6px);
-}
-
-/* ❤️ Wishlist */
-.wishlist-btn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: #fff;
-  padding: 8px;
-  border-radius: 50%;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.wishlist-btn:hover {
-  transform: scale(1.1);
+.cp-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
 }
 
-.wishlist-btn.active {
-  color: red;
-}
-
-/* ================= IMAGE ================= */
-.product-image-click {
+.cp-card-img-wrap {
   width: 100%;
-  height: 260px;
-  object-fit: contain;   /* IMPORTANT */
-  margin-bottom: 15px;
-  cursor: pointer;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fafafa;
+  margin-bottom: 12px;
 }
 
-/* ================= TITLE ================= */
-.product-card h3 {
-  font-size: 15px;
+.cp-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.cp-card:hover .cp-card-img {
+  transform: scale(1.04);
+}
+
+.cp-card-name {
+  font-size: 14px;
   font-weight: 500;
-  line-height: 1.4;
-  margin: 8px 0 6px;
-  min-height: 42px; /* keeps cards equal height */
+  color: #111;
+  line-height: 1.45;
+  margin: 0 0 10px;
+  flex: 1;
 }
 
-/* ================= PRICE ================= */
-.price {
+.cp-card-price {
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 14px;
+  color: #111;
+  margin: 0 0 12px;
 }
 
-/* ================= BUTTON ================= */
-.cart-btn {
+.cp-card-btn {
   width: 100%;
-  padding: 13px;
-  background: #000;
+  padding: 12px;
+  background: #111;
   color: #fff;
   border: none;
   border-radius: 8px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.2s ease;
+  margin-top: auto;
 }
 
-.cart-btn:hover {
-  background: #222;
+.cp-card-btn:hover {
+  background: #333;
 }
 
-/* ================= RESPONSIVE ================= */
+/* ─── Slim Card — when combo active ─────────────── */
+.cp-card--slim {
+  padding-bottom: 14px;
+}
 
-/* Laptop */
+.cp-card--slim .cp-card-img-wrap {
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.cp-card--slim .cp-card-name {
+  margin-bottom: 0;
+}
+
+/* ─── Responsive ─────────────────────────────────── */
 @media (max-width: 1200px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .cp-grid { grid-template-columns: repeat(3, 1fr); }
+  .combo-right { padding: 28px; }
 }
 
-/* Tablet */
 @media (max-width: 900px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .product-image-click {
-    height: 220px;
-  }
+  .cp-grid { grid-template-columns: repeat(2, 1fr); }
+  .combo-hero { min-height: 260px; }
+  .combo-name { font-size: 18px; }
+  .combo-right { padding: 24px 20px; gap: 10px; }
 }
 
-/* Mobile */
-@media (max-width: 500px) {
-  .category-page {
-    padding: 30px 20px;
-  }
+@media (max-width: 650px) {
+  .combo-hero { flex-direction: column; min-height: unset; }
+  .combo-left { flex: none; width: 100%; height: 240px; }
+  .combo-right { flex: none; width: 100%; padding: 20px; }
+  .cp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
 
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .product-image-click {
-    height: 200px;
-  }
+@media (max-width: 400px) {
+  .cp-page { padding: 16px 12px; }
+  .cp-card-img-wrap { height: 150px; }
+  .cp-card--slim .cp-card-img-wrap { height: 150px; }
 }

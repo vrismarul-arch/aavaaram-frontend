@@ -4,33 +4,34 @@ import BestSellers from "../../components/BestSellers/BestSellers";
 
 import ComboPacks from "../../components/ComboPacks/ComboPacks";
 import SweetLegacy from "../../components/SweetLegacy/SweetLegacy";
-import TimelessDelights from "../../components/TimelessDelights/TimelessDelights";
-import RoyalBites from "../../components/RoyalBites/RoyalBites";
-import ShopByCollection from "../../components/ShopByCollection/ShopByCollection";
-import HeritageStory from "../../components/HeritageStory/HeritageStory";
+// import TimelessDelights from "../../components/TimelessDelights/TimelessDelights";
 import Testimonials from "../../components/Testimonials/Testimonials";
-import ProcessVideos from "../../components/ProcessVideos/ProcessVideos";
 import Banner from "../../components/Banner/Banner";
 import FAQ from "../../components/FAQ/FAQ";
+import LogoSlider from "../../components/LogoSlider/LogoSlider";
+import IngredientsSection from "../../components/IngredientsSection/IngredientsSection";
+import NutritionalPanel from "../../components/NutritionalPanel/NutritionalPanel";
 
 
 export default function Home() {
   return (
     <>
-    
+
       <Banner />
+      <LogoSlider />
+
       <Categories />
+      <SweetLegacy />
+
       <BestSellers />
-        <ComboPacks />
-        <SweetLegacy />
-        <TimelessDelights /> 
-        {/* <RoyalBites /> */}
-        {/* <ShopByCollection /> */}
-        <HeritageStory /> 
-        <Testimonials />
-        <ProcessVideos />
-        <FAQ />
-      
+      <ComboPacks />
+      <NutritionalPanel/>
+      {/* <TimelessDelights /> */}
+<IngredientsSection/>
+      <Testimonials />
+
+      <FAQ />
+
     </>
   );
 }

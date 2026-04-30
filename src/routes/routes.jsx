@@ -9,7 +9,8 @@ import WishlistPage from "../pages/Wishlist/WishlistPage";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import CartPage from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
-import PaymentPage from "../pages/PaymentPage";       // ✅ ADD
+import PaymentPage from "../pages/Checkout/PaymentPage";
+// ✅ ADD
 import Success from "../pages/Success";               // ✅ ADD
 import MyOrders from "../pages/MyOrders/MyOrders";
 
@@ -38,6 +39,11 @@ import AboutUs from "../components/AboutUs/AboutUs";
 import Search from "../pages/Search/Search";
 import Contact from "../pages/Contact/Contact";
 import BookingHistory from "../pages/BookingHistory/BookingHistory";
+import UserProfile from "../pages/profile/Profile";
+import OrderTracking from "../pages/profile/OrderTracking";
+import PrivacyPolicy from "../pages/policy/PrivacyPolicy";
+import TermsConditions from "../pages/policy/TermsConditions";
+import Shipping from "../pages/policy/Shipping";
 
 export default function AppRoutes() {
   return (
@@ -47,6 +53,7 @@ export default function AppRoutes() {
       <Route element={<UserLayout />}>
 
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/category/:id" element={<CategoryPage />} />
         <Route path="/best-sellers" element={<BestSellersPage />} />
         <Route path="/collection/:id" element={<CollectionPage />} />
@@ -59,8 +66,14 @@ export default function AppRoutes() {
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/order/:orderId" element={<OrderTracking />} />
+        <Route path="/track-order/:orderId" element={<OrderTracking />} />
+        <Route path="/my-orders/:orderId" element={<OrderTracking />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/user-histor" element={<BookingHistory />} />
+        <Route path="/user-history" element={<BookingHistory />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/shipping" element={<Shipping />} />
 
       </Route>
 
