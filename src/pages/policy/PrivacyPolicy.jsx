@@ -1,7 +1,7 @@
 import React from "react";
 import "./PrivacyPolicy.css";
 
-const PrivacyPolicy = () => {
+const Privacypolicy = () => {
   return (
     <div className="privacy-container">
       <div className="privacy-content">
@@ -173,4 +173,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default Privacypolicy;

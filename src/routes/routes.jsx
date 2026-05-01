@@ -41,9 +41,9 @@ import Contact from "../pages/Contact/Contact";
 import BookingHistory from "../pages/BookingHistory/BookingHistory";
 import UserProfile from "../pages/profile/Profile";
 import OrderTracking from "../pages/profile/OrderTracking";
-import PrivacyPolicy from "../pages/policy/PrivacyPolicy";
 import TermsConditions from "../pages/policy/TermsConditions";
 import Shipping from "../pages/policy/Shipping";
+import Privacypolicy from "../pages/policy/Privacypolicy";
 
 export default function AppRoutes() {
   return (
@@ -71,7 +71,7 @@ export default function AppRoutes() {
         <Route path="/my-orders/:orderId" element={<OrderTracking />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/user-history" element={<BookingHistory />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/privacy-policy" element={<Privacypolicy />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/shipping" element={<Shipping />} />
 
